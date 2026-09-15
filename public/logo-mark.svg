@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" role="img" aria-label="Darsh Innovations">
+  <!--
+    Vector stand-in for the official mark, used until public/logo-mark.png (or
+    .svg) is dropped in. Same construction as the real thing: interlocking
+    crescents in the three brand materials — lacquer red, piano black and
+    brushed silver — turning around a red four-point star.
+  -->
+  <defs>
+    <linearGradient id="dRed" x1="46" y1="176" x2="176" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4A44"/><stop offset="0.45" stop-color="#E8161F"/><stop offset="1" stop-color="#8E0A12"/>
+    </linearGradient>
+    <linearGradient id="dRedDeep" x1="196" y1="72" x2="96" y2="204" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C80B14"/><stop offset="0.5" stop-color="#E8161F"/><stop offset="1" stop-color="#FF6B4A"/>
+    </linearGradient>
+    <linearGradient id="dInk" x1="74" y1="62" x2="204" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3A3D43"/><stop offset="0.45" stop-color="#151719"/><stop offset="1" stop-color="#0A0B0C"/>
+    </linearGradient>
+    <linearGradient id="dSilver" x1="180" y1="196" x2="52" y2="104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/><stop offset="0.5" stop-color="#E4E6EA"/><stop offset="1" stop-color="#9AA0A8"/>
+    </linearGradient>
+    <linearGradient id="dStar" x1="104" y1="100" x2="152" y2="158" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4A44"/><stop offset="1" stop-color="#A00810"/>
+    </linearGradient>
+  </defs>
+
+  <!-- four blades on one circle, 90 degrees apart, each sweeping 150 degrees -->
+  <g fill="none" stroke-linecap="round" stroke-width="30">
+    <path d="M178.1 187.7 A78 78 0 0 1 54.7 101.3"  stroke="url(#dSilver)"/>
+    <path d="M68.3 178.1  A78 78 0 0 1 154.7 54.7"  stroke="url(#dRed)"/>
+    <path d="M187.7 77.9  A78 78 0 0 1 101.3 201.3" stroke="url(#dRedDeep)"/>
+    <path d="M77.9 68.3   A78 78 0 0 1 201.3 154.7" stroke="url(#dInk)"/>
+  </g>
+
+  <path d="M128 86 C132.6 117 139 123.4 170 128 C139 132.6 132.6 139 128 170 C123.4 139 117 132.6 86 128 C117 123.4 123.4 117 128 86 Z"
+        fill="url(#dStar)"/>
+</svg>
