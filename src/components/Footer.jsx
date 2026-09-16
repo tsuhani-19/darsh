@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Mail, MapPin, Phone } from 'lucide-react'
-import { LogoMark, Wordmark } from './Logo.jsx'
+import { LogoLockup, LOGO_PAPER } from './Logo.jsx'
 import FooterWordmark from './FooterWordmark.jsx'
 import { Reveal } from './ui.jsx'
 import { site, whatsappLink } from '../siteConfig.js'
@@ -19,20 +19,33 @@ export default function Footer() {
       <div className="container-x relative py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
           <Reveal>
-            <div className="flex items-center gap-2.5">
-              <LogoMark className="h-10 w-10" />
-              <Wordmark dark size="sm" />
+            {/* The artwork is published on its own near-white ground, so on
+                ink it sits on a plate in exactly that colour — a deliberate
+                badge rather than a white rectangle with a visible seam. */}
+            <div
+              className="inline-flex items-center rounded-xl px-4 py-2"
+              style={{ backgroundColor: LOGO_PAPER }}
+            >
+              <LogoLockup className="h-14" />
             </div>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-400">
               A digital studio in Mumbai. Design, engineering, marketing and video under one
               roof, so the work stays consistent from first sketch to launch day.
             </p>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              {site.socials.map((s) => (
-                <a key={s.label} href={s.href} className="text-ink-400 transition-colors hover:text-white">
-                  {s.label}
-                </a>
-              ))}
+              {site.socials
+                .filter((s) => s.href && s.href !== '#')
+                .map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink-400 transition-colors hover:text-white"
+                  >
+                    {s.label}
+                  </a>
+                ))}
             </div>
           </Reveal>
 

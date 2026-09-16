@@ -34,26 +34,40 @@ export function Reveal({ children, delay = 0, y = 24, className = '' }) {
  * strings; each one gets its own overflow-hidden row.
  */
 export function MaskedHeading({ lines, className = '', delay = 0, as: Tag = 'h2', immediate = false }) {
+  // The trigger lives on the MASK, not on the line inside it.
+  //
+  // The line starts translated 110% of its own height, and the mask clips to
+  // its own box — which, depending on the line-height, can leave the line with
+  // a zero-area intersection rect. An IntersectionObserver watching the line
+  // then reports "never in view" forever, so it never animates, so it never
+  // becomes visible: a deadlock that showed up as a silently blank headline.
+  // The mask is always on screen, so watching it instead always resolves, and
+  // the line follows through variant propagation.
+  //
   // Above the fold, `animate` is used instead of `whileInView`: an element that
   // is already on screen at mount can miss the intersection callback and stay
   // parked off-canvas, which reads as a blank gap where the headline should be.
-  const motionProps = immediate
-    ? { animate: { y: 0 } }
-    : { whileInView: { y: 0 }, viewport: { once: true, margin: '-60px' } }
+  const trigger = immediate
+    ? { animate: 'shown' }
+    : { whileInView: 'shown', viewport: { once: true, margin: '-60px' } }
 
   return (
     <Tag className={className}>
       {lines.map((line, i) => (
-        <span key={i} className="block overflow-hidden pb-[0.12em]">
+        <motion.span
+          key={i}
+          className="block overflow-hidden pb-[0.12em]"
+          initial="hidden"
+          {...trigger}
+        >
           <motion.span
             className="block"
-            initial={{ y: '110%' }}
-            {...motionProps}
+            variants={{ hidden: { y: '110%' }, shown: { y: 0 } }}
             transition={{ duration: 0.8, delay: delay + i * 0.08, ease: EASE }}
           >
             {line}
           </motion.span>
-        </span>
+        </motion.span>
       ))}
     </Tag>
   )

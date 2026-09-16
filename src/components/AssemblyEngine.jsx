@@ -1,32 +1,38 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { cubicBezier, motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { LogoMark, LOGO_PAPER } from './Logo.jsx'
 
 /**
- * Exploded assembly. Four blades fly in from off-screen, rotate into register
- * and lock together into the mark; the star core drops in last and the name
+ * Exploded assembly. Four parts fly in from off-screen, rotate into register
+ * and lock together into the mark; the core drops in last and the name
  * resolves under it.
  *
- * The point is not that it moves — it is that the four blades are the four
+ * The parts are quarters of the official mark itself — the same artwork the
+ * navbar and footer draw, cut into four and put back together — so the thing
+ * that assembles is the logo exactly, not a drawing of it. Nothing here is
+ * redrawn or recoloured: every piece is a window onto public/logo.svg, which
+ * is why the finished state is pixel-identical to the mark anywhere else on
+ * the site.
+ *
+ * The point is not that it moves — it is that the four parts are the four
  * things the studio actually sells. Each one carries its discipline in as it
  * arrives, so by the time the mark is whole the reader has been told what is
- * inside it. A decorative assembly would play exactly the same and mean
- * nothing; this one is the positioning statement, animated.
+ * inside it.
  *
  * Scroll-scrubbed rather than time-based: the reader sets the pace, can stop
  * halfway, and can scrub back up to watch a part seat again.
  */
 
-// Arcs are the same four in public/logo-mark.svg — one circle, 90° apart,
-// each sweeping 150°. Kept literal rather than generated so this and the
-// static mark can never drift apart.
-const BLADES = [
+// One quarter each, cut on the horizontal and vertical so a part and its label
+// share a corner of the stage. `clip` is in the part's own box, so it turns
+// with the part and the four only tile back into a whole disc at rest.
+const PARTS = [
   {
     id: 'build',
     label: 'Build',
     blurb: 'Sites, apps, platforms',
-    d: 'M68.3 178.1 A78 78 0 0 1 154.7 54.7',
-    gradient: 'asm-red',
+    clip: 'polygon(0% 0%, 50% 0%, 50% 50%, 0% 50%)',
     from: { x: -300, y: -210, rotate: -165 },
     at: 'left-0 top-0 text-left',
   },
@@ -34,8 +40,7 @@ const BLADES = [
     id: 'grow',
     label: 'Grow',
     blurb: 'Search, ads, content',
-    d: 'M187.7 77.9 A78 78 0 0 1 101.3 201.3',
-    gradient: 'asm-red-deep',
+    clip: 'polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%)',
     from: { x: 310, y: -180, rotate: 175 },
     at: 'right-0 top-0 text-right',
   },
@@ -43,8 +48,7 @@ const BLADES = [
     id: 'create',
     label: 'Create',
     blurb: 'Film, motion, design',
-    d: 'M178.1 187.7 A78 78 0 0 1 54.7 101.3',
-    gradient: 'asm-silver',
+    clip: 'polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%)',
     from: { x: 280, y: 240, rotate: 150 },
     at: 'right-0 bottom-0 text-right',
   },
@@ -52,14 +56,18 @@ const BLADES = [
     id: 'automate',
     label: 'Automate',
     blurb: 'Workflows, assistants',
-    d: 'M77.9 68.3 A78 78 0 0 1 201.3 154.7',
-    gradient: 'asm-ink',
+    clip: 'polygon(0% 50%, 50% 50%, 50% 100%, 0% 100%)',
     from: { x: -290, y: 220, rotate: -145 },
     at: 'left-0 bottom-0 text-left',
   },
 ]
 
-// Each blade gets its own slice of the scroll so they seat one behind another
+// The four quarters are cut around an empty middle so there is a socket for the
+// core to seat into. The core is drawn a shade wider than the socket, so the
+// two overlap rather than meet on a hairline that could show as a seam.
+const SOCKET = 'radial-gradient(circle at 50% 50%, transparent 0 17.5%, #000 18.2%)'
+
+// Each part gets its own slice of the scroll so they seat one behind another
 // rather than all at once.
 const windowFor = (i) => [0.03 + i * 0.085, 0.03 + i * 0.085 + 0.4]
 
@@ -69,70 +77,69 @@ const windowFor = (i) => [0.03 + i * 0.085, 0.03 + i * 0.085 + 0.4]
 const EASE = cubicBezier(0.22, 1, 0.36, 1)
 
 /**
- * One pass of a blade. `lag` offsets its scroll window, so a copy drawn with a
- * small lag sits a little behind the real part — three passes stacked is a
- * cheap, controllable motion blur that a filter could not do at this cost.
+ * The finished face of the machine: the official mark on its own ground.
+ *
+ * The artwork is published on a near-white ground rather than on
+ * transparency, so the ground is made the point — a paper disc, the part the
+ * mark is stamped on. Every piece carries the same disc, which is why they
+ * close up into one without a visible join.
  */
-function BladePath({ blade, index, progress, lag = 0, ghost = 0 }) {
-  const [s0, e0] = windowFor(index)
-  const start = s0 + lag
-  const end = e0 + lag
+function MarkFace() {
+  return (
+    // The artwork is a square with an opaque ground, so it has to be trimmed to
+    // the disc — left untrimmed its corners stand proud of the rim as four tabs.
+    <span aria-hidden="true" className="absolute inset-0 block overflow-hidden rounded-full">
+      <span className="absolute inset-0 block" style={{ backgroundColor: LOGO_PAPER }} />
+      {/* Inset off the rim: the mark very nearly fills its own square, and a
+          disc inscribed in that square would cut the tips off the swirl. */}
+      <span className="absolute left-1/2 top-1/2 block h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2">
+        <LogoMark className="h-full w-full" />
+      </span>
+    </span>
+  )
+}
+
+/** One quarter of the mark, flying in and seating. */
+function Part({ part, index, progress }) {
+  const [start, end] = windowFor(index)
   const opts = { ease: EASE }
 
-  const x = useTransform(progress, [start, end], [blade.from.x, 0], opts)
-  const y = useTransform(progress, [start, end], [blade.from.y, 0], opts)
-  const rotate = useTransform(progress, [start, end], [blade.from.rotate, 0], opts)
+  const x = useTransform(progress, [start, end], [part.from.x, 0], opts)
+  const y = useTransform(progress, [start, end], [part.from.y, 0], opts)
+  const rotate = useTransform(progress, [start, end], [part.from.rotate, 0], opts)
   const scale = useTransform(progress, [start, end], [0.5, 1], opts)
-  // Trailing copies burn off as the part lands, so the blur only exists while
-  // there is actually movement to blur.
-  const opacity = useTransform(
-    progress,
-    ghost ? [start, start + 0.08, end - 0.06, end] : [start, start + 0.1],
-    ghost ? [0, ghost, ghost, 0] : [0, 1],
-  )
+  const opacity = useTransform(progress, [start, start + 0.1], [0, 1])
 
   return (
-    <motion.path
-      d={blade.d}
-      fill="none"
-      stroke={`url(#${blade.gradient})`}
-      strokeWidth={30}
-      strokeLinecap="round"
+    <motion.div
+      aria-hidden="true"
       style={{
         x,
         y,
         rotate,
         scale,
         opacity,
-        // Without view-box these translations would be in CSS pixels and the
-        // rotation would pivot on the blade's own bounding box, not the mark's
-        // centre — so the parts would swing rather than seat.
-        transformBox: 'view-box',
-        transformOrigin: '128px 128px',
+        clipPath: part.clip,
+        WebkitClipPath: part.clip,
+        maskImage: SOCKET,
+        WebkitMaskImage: SOCKET,
       }}
-    />
+      className="absolute inset-0"
+    >
+      <MarkFace />
+    </motion.div>
   )
 }
 
-function Blade({ blade, index, progress }) {
-  return (
-    <>
-      <BladePath blade={blade} index={index} progress={progress} lag={0.055} ghost={0.16} />
-      <BladePath blade={blade} index={index} progress={progress} lag={0.028} ghost={0.32} />
-      <BladePath blade={blade} index={index} progress={progress} />
-    </>
-  )
-}
-
-function DisciplineTag({ blade, index, progress }) {
+function DisciplineTag({ part, index, progress }) {
   const [, end] = windowFor(index)
   const opacity = useTransform(progress, [end - 0.12, end + 0.02], [0, 1])
   const y = useTransform(progress, [end - 0.12, end + 0.02], [14, 0])
 
   return (
-    <motion.div style={{ opacity, y }} className={`absolute ${blade.at} max-w-[8.5rem]`}>
-      <p className="font-display text-[0.95rem] font-bold text-white sm:text-[1.05rem]">{blade.label}</p>
-      <p className="mt-0.5 text-[0.72rem] leading-snug text-ink-400">{blade.blurb}</p>
+    <motion.div style={{ opacity, y }} className={`absolute ${part.at} max-w-[8.5rem]`}>
+      <p className="font-display text-[0.95rem] font-bold text-white sm:text-[1.05rem]">{part.label}</p>
+      <p className="mt-0.5 text-[0.72rem] leading-snug text-ink-400">{part.blurb}</p>
     </motion.div>
   )
 }
@@ -163,9 +170,9 @@ export default function AssemblyEngine() {
   // itself instead of just stopping.
   const markScale = useTransform(progress, [0.55, 0.78, 0.88], [0.9, 1.06, 1], { ease: EASE })
 
-  const starScale = useTransform(progress, [0.6, 0.79], [0, 1], { ease: EASE })
-  const starRotate = useTransform(progress, [0.6, 0.79], [-160, 0], { ease: EASE })
-  const starOpacity = useTransform(progress, [0.6, 0.7], [0, 1])
+  const coreScale = useTransform(progress, [0.6, 0.79], [0, 1], { ease: EASE })
+  const coreRotate = useTransform(progress, [0.6, 0.79], [-160, 0], { ease: EASE })
+  const coreOpacity = useTransform(progress, [0.6, 0.7], [0, 1])
 
   // One bloom of heat at the moment the core seats, then it settles back.
   const flash = useTransform(progress, [0.72, 0.82, 0.95], [0, 1, 0.45])
@@ -235,60 +242,35 @@ export default function AssemblyEngine() {
               className="pointer-events-none absolute aspect-square h-[min(22rem,40vh)] rounded-full border-2 border-brand-400"
             />
 
-            <motion.svg
-              viewBox="0 0 256 256"
+            <motion.div
               style={{ rotate: markRotate, scale: markScale }}
-              className="relative h-[min(22rem,40vh)] w-[min(22rem,40vh)] overflow-visible"
-              aria-hidden="true"
+              className="relative h-[min(22rem,40vh)] w-[min(22rem,40vh)]"
+              role="img"
+              aria-label="The Darsh Innovations mark, assembling"
             >
-              <defs>
-                <linearGradient id="asm-red" x1="46" y1="176" x2="176" y2="52" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FF4A44" />
-                  <stop offset="0.45" stopColor="#E8161F" />
-                  <stop offset="1" stopColor="#8E0A12" />
-                </linearGradient>
-                <linearGradient id="asm-red-deep" x1="196" y1="72" x2="96" y2="204" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#C80B14" />
-                  <stop offset="0.5" stopColor="#E8161F" />
-                  <stop offset="1" stopColor="#FF6B4A" />
-                </linearGradient>
-                <linearGradient id="asm-silver" x1="180" y1="196" x2="52" y2="104" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FFFFFF" />
-                  <stop offset="0.5" stopColor="#E4E6EA" />
-                  <stop offset="1" stopColor="#9AA0A8" />
-                </linearGradient>
-                {/* Lifted off the logo's piano black — true black would vanish
-                    against this section's ground. */}
-                <linearGradient id="asm-ink" x1="74" y1="62" x2="204" y2="160" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#7C828B" />
-                  <stop offset="0.5" stopColor="#3D4046" />
-                  <stop offset="1" stopColor="#1B1D21" />
-                </linearGradient>
-                <linearGradient id="asm-star" x1="104" y1="100" x2="152" y2="158" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FF4A44" />
-                  <stop offset="1" stopColor="#A00810" />
-                </linearGradient>
-              </defs>
-
-              {BLADES.map((blade, i) => (
-                <Blade key={blade.id} blade={blade} index={i} progress={progress} />
+              {PARTS.map((part, i) => (
+                <Part key={part.id} part={part} index={i} progress={progress} />
               ))}
 
-              <motion.path
-                d="M128 86 C132.6 117 139 123.4 170 128 C139 132.6 132.6 139 128 170 C123.4 139 117 132.6 86 128 C117 123.4 123.4 117 128 86 Z"
-                fill="url(#asm-star)"
-                style={{
-                  scale: starScale,
-                  rotate: starRotate,
-                  opacity: starOpacity,
-                  transformBox: 'view-box',
-                  transformOrigin: '128px 128px',
-                }}
-              />
-            </motion.svg>
+              {/* The core: the middle of the same artwork, at the same scale,
+                  dropped into the socket the four quarters leave open. */}
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2">
+                <motion.div
+                  aria-hidden="true"
+                  style={{ scale: coreScale, rotate: coreRotate, opacity: coreOpacity }}
+                  className="h-full w-full overflow-hidden rounded-full"
+                >
+                  {/* 250% of the core is 100% of the stage, so the mark inside
+                      lands at exactly the scale the quarters are drawn at. */}
+                  <div className="absolute left-1/2 top-1/2 h-[250%] w-[250%] -translate-x-1/2 -translate-y-1/2">
+                    <MarkFace />
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
 
-            {BLADES.map((blade, i) => (
-              <DisciplineTag key={blade.id} blade={blade} index={i} progress={progress} />
+            {PARTS.map((part, i) => (
+              <DisciplineTag key={part.id} part={part} index={i} progress={progress} />
             ))}
           </div>
 

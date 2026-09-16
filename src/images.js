@@ -29,12 +29,6 @@ export const img = {
   stepBuild: u('photo-1498050108023-c5249f4df085'),
   stepLaunch: u('photo-1552664730-d307ca884978'),
 
-  /* ---------- team ---------- */
-  teamOne: u('photo-1553877522-43269d4ea984', 700),
-  teamTwo: u('photo-1531482615713-2afd69097998', 700),
-  teamThree: u('photo-1460925895917-afdab827c52f', 700),
-  teamFour: u('photo-1574717024653-61fd2cf4d44d', 700),
-
   /* ---------- home ---------- */
   homeHero: u('photo-1522071820081-009f0129c71c'),
   homeHeroInset: u('photo-1593642532842-98d0fd5ebc1a', 700),

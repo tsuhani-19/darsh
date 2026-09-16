@@ -1,66 +1,83 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { site } from '../siteConfig.js'
 
 /**
- * Brand mark on its own. Uses the official raster file once it exists in
- * /public, otherwise the bundled vector stand-in.
+ * Every appearance of the Darsh Innovations logo on the site comes from here,
+ * and every one of them draws the one official file: public/logo.svg. Nothing
+ * redraws, recolours or re-letters the artwork.
+ *
+ * The official file is the full lockup — the swirl mark with "Darsh
+ * Innovations" beside it — 1618 x 971. Some slots (an avatar, a watermark, a
+ * favicon) are square and want the mark on its own, so <LogoMark> shows the
+ * same file through a square window over the mark rather than a second,
+ * separately drawn asset. Crop values are measured off the artwork below.
  */
-export function LogoMark({ className = 'h-10 w-10' }) {
-  const [src, setSrc] = useState(site.logoMark)
-  return (
-    <img
-      src={src}
-      alt=""
-      aria-hidden="true"
-      draggable={false}
-      onError={() => src !== site.logoFallback && setSrc(site.logoFallback)}
-      className={`${className} select-none object-contain`}
-    />
-  )
-}
 
-/** Wordmark set to match the official lockup, used when logo-full is absent. */
-export function Wordmark({ dark = false, size = 'md' }) {
-  const scale = size === 'sm' ? ['text-[1.15rem]', 'text-[0.78rem]'] : ['text-[1.4rem]', 'text-[0.95rem]']
+// Artwork geometry, in the units of logo.svg's own viewBox.
+const ART = { w: 1618, h: 971 }
+// The square around the swirl mark: the mark inks x 112-593, y 200-716, so
+// this is that box centred with a little air around it.
+const MARK = { x: 72, y: 178, size: 560 }
+
+// The ground the artwork is drawn on. Not transparent — matching a plate to it
+// is what keeps the logo from reading as a pasted-on white box over dark ink.
+export const LOGO_PAPER = '#fdfdfd'
+
+/** The mark on its own: the official file, windowed to the mark's square. */
+export function LogoMark({ className = 'h-10 w-10', title }) {
   return (
-    <span className="leading-[1.05]">
-      <span
-        className={`block font-display font-extrabold tracking-[-0.02em] ${scale[0]} ${
-          dark ? 'text-white' : 'text-ink-900'
-        }`}
-      >
-        Darsh
-      </span>
-      <span
-        className={`block bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text font-display font-semibold tracking-[0.01em] text-transparent ${scale[1]}`}
-      >
-        Innovations
-      </span>
+    <span
+      className={`relative block overflow-hidden ${className}`}
+      role={title ? 'img' : undefined}
+      aria-label={title}
+      aria-hidden={title ? undefined : 'true'}
+    >
+      <img
+        src={site.logo}
+        alt=""
+        draggable={false}
+        // Width alone — height stays auto, so the artwork keeps its proportions
+        // and the square window simply shows less of it.
+        style={{
+          width: `${(ART.w / MARK.size) * 100}%`,
+          left: `${(-MARK.x / MARK.size) * 100}%`,
+          top: `${(-MARK.y / MARK.size) * 100}%`,
+        }}
+        className="absolute max-w-none select-none"
+      />
     </span>
   )
 }
 
-/** Full lockup: the official image if present, otherwise mark + wordmark. */
-export default function Logo({ className = 'h-10', dark = false, size = 'md' }) {
-  const [broken, setBroken] = useState(false)
-
+/** The full lockup as published, unlinked. Height is set, width follows. */
+export function LogoLockup({ className = 'h-10' }) {
   return (
-    <Link to="/" aria-label={`${site.name} — home`} className="flex items-center gap-2.5">
-      {broken ? (
-        <>
-          <LogoMark className={size === 'sm' ? 'h-9 w-9' : 'h-11 w-11'} />
-          <Wordmark dark={dark} size={size} />
-        </>
-      ) : (
-        <img
-          src={site.logoFull}
-          alt={site.name}
-          draggable={false}
-          onError={() => setBroken(true)}
-          className={`${className} w-auto select-none object-contain`}
-        />
-      )}
+    <img
+      src={site.logo}
+      alt={site.name}
+      draggable={false}
+      className={`${className} w-auto select-none object-contain`}
+    />
+  )
+}
+
+/**
+ * The lockup as the home link — the navbar and anywhere else it clicks.
+ *
+ * On its own paper, rounded. Over white the plate is invisible; over the
+ * header's frosted panel, when that panel is sitting on a dark section, it is
+ * what keeps the artwork's ground from reading as a hard white box cut into
+ * the bar.
+ */
+export default function Logo({ className = 'h-10' }) {
+  return (
+    <Link
+      to="/"
+      aria-label={`${site.name} — home`}
+      className="inline-flex items-center rounded-lg px-2 py-1"
+      style={{ backgroundColor: LOGO_PAPER }}
+    >
+      <LogoLockup className={className} />
     </Link>
   )
 }

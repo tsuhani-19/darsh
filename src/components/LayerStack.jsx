@@ -83,14 +83,15 @@ function Slab({ layer, index, progress }) {
   const rotate = useTransform(progress, [start, end], [layer.from > 0 ? 14 : -14, 0], opts)
   const opacity = useTransform(progress, [start, start + 0.08], [0, 1])
 
-  // Lights at the same moment its row in the list does, so picture and words
-  // are unmistakably the same item.
-  const rim = useTransform(progress, [end - 0.1, end], [0, 1])
+  // Flashes at the moment its row in the list lights, then falls back to a
+  // trace. Held at full, five lit rims at rest is five red outlines competing
+  // with the plate colours they are supposed to be pointing at.
+  const rim = useTransform(progress, [end - 0.1, end, end + 0.1], [0, 1, 0.15])
 
   return (
     <motion.div
       style={{ x, z, rotate, opacity }}
-      className="[grid-area:1/1] h-[5.5rem] w-[19rem] place-self-center [transform-style:preserve-3d] will-change-transform sm:h-[6.5rem] sm:w-[24rem]"
+      className="[grid-area:1/1] h-[5.5rem] w-[19rem] place-self-center [transform-style:preserve-3d] sm:h-[6.5rem] sm:w-[24rem]"
     >
       {/* The side wall. A flat rectangle reads as a card; one dark copy sitting
           a few pixels behind it reads as a plate with thickness, which is what
@@ -98,9 +99,15 @@ function Slab({ layer, index, progress }) {
       <div
         className={`absolute inset-0 rounded-[1.25rem] ${layer.edge} [transform:translateZ(-16px)]`}
       />
+      {/* No box-shadow on the plates, deliberately. Three stacked shadows on a
+          3D-transformed, promoted layer have to be re-rasterised every frame,
+          and five of them was enough to stall the compositor outright. The
+          depth here comes from the side wall and the one ground shadow below;
+          a hairline top highlight does the rest. */}
       <div
-        className={`absolute inset-0 rounded-[1.25rem] bg-gradient-to-br ${layer.face} shadow-deep ring-1 ring-white/10`}
+        className={`absolute inset-0 rounded-[1.25rem] bg-gradient-to-br ${layer.face} ring-1 ring-white/10`}
       />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-[1.25rem] bg-white/30" />
       <motion.div
         style={{ opacity: rim }}
         className="absolute inset-0 rounded-[1.25rem] ring-2 ring-brand-400/70"
@@ -194,7 +201,7 @@ export default function LayerStack() {
                 one slab tall and cannot reserve it on its own. */}
             <div className="perspective-1200 flex min-h-[21rem] items-center justify-center lg:min-h-[25rem]">
               <motion.div
-                className="grid [transform-style:preserve-3d] will-change-transform"
+                className="grid [transform-style:preserve-3d]"
                 style={{ rotateX: 46, rotateZ: deckTurn }}
               >
                 {/* Contact shadow on the deck's floor, well below the lowest

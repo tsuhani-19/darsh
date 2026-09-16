@@ -27,7 +27,7 @@ npm run preview  # preview the build
 |---|---|
 | Phone, WhatsApp number, email, address, hours, socials | `src/siteConfig.js` |
 | Services, process, commitments, team, FAQs | `src/data.js` |
-| Logo artwork | `public/logo-full.png` + `public/logo-mark.png` (see below) |
+| Logo artwork | `public/logo.svg` (see below) |
 | Colours, fonts, animations | `tailwind.config.js` |
 
 **Set your real numbers before going live** — `site.phone`, `site.phoneHref` and
@@ -142,20 +142,33 @@ company, service, budget and details, formats them into a message and opens
 WhatsApp with it prefilled. Nothing to host, nothing to configure, no deliverability
 problems.
 
-## Adding the real logo
+## The logo
 
-**This is the one step only you can do.** Save the two official files into
-`public/` with these exact names (see `public/ADD-YOUR-LOGO-HERE.txt`):
+The official artwork lives in one file, `public/logo.svg` — the full lockup
+(swirl mark + "Darsh Innovations"), 1618 x 971.
+
+Everything on the site draws that one file through `src/components/Logo.jsx`:
 
 ```
-public/logo-full.png   the lockup: mark + "Darsh Innovations"
-public/logo-mark.png   the swirl mark on its own
+<Logo />        the lockup as the home link   -> navbar, mobile menu
+<LogoLockup />  the lockup, unlinked          -> footer, intro splash
+<LogoMark />    the mark alone, square        -> assistant avatar, watermarks
 ```
 
-Nothing else needs changing — the header, footer, favicon and assistant all read
-those paths from `src/siteConfig.js`. Until the files exist the site falls back to a
-vector stand-in of the mark plus a typeset wordmark, so it never shows a broken image.
-(SVG or WebP work too — just update `logoFull` / `logoMark` in `siteConfig.js`.)
+`<LogoMark>` is not a second asset: it shows the same file through a square
+window over the mark, so the two can never drift apart. The only copy is
+`public/favicon.svg` — browsers refuse external references inside an SVG
+favicon, so it carries its own cropped copy of the mark; regenerate it from
+`logo.svg` if the artwork is ever reissued.
+
+To replace the artwork, drop the new file in as `public/logo.svg`. If its
+proportions or the mark's position inside it change, update `ART` and `MARK` at
+the top of `src/components/Logo.jsx` to match, and redo the favicon.
+
+Note: the supplied artwork is drawn on its own near-white ground (`#fdfdfd`),
+not on transparency. On dark surfaces it is placed on a plate in that exact
+colour so it reads as a badge rather than a white rectangle. A transparent
+export would let it sit directly on ink instead.
 
 ## Notes
 

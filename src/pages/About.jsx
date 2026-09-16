@@ -8,7 +8,7 @@ import AuroraMesh from '../components/AuroraMesh.jsx'
 import { AboutArt } from '../components/heroArt.jsx'
 import { MaskedHeading, Reveal, RevealImage, SectionHeading, SlideIn } from '../components/ui.jsx'
 import { CTA } from './Home.jsx'
-import { team, capabilities } from '../data.js'
+import { capabilities } from '../data.js'
 import { img } from '../images.js'
 
 const refusals = [
@@ -90,6 +90,15 @@ export default function About() {
           <img src={img.aboutWide} alt="" className="graded absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-ink-900/80" />
           <AuroraMesh intensity={0.3} />
+          {/* The aurora's four blobs are each 30% opaque, so stacked over a
+              short band they lift it far past what the scrim underneath can
+              hold down — and white type on that washes out. This scrim sits
+              ABOVE the aurora and is weighted to the left, where the heading
+              is, so the glow still reads on the open right-hand side. */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-r from-ink-900/85 via-ink-900/60 to-transparent"
+          />
           <div className="container-x relative flex h-full items-center">
             <MaskedHeading
               lines={['We would rather say no', 'than take work we', 'cannot do well.']}
@@ -129,47 +138,6 @@ export default function About() {
               </motion.li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      {/* team */}
-      <section className="snap-sec border-t border-line bg-mist py-20 sm:py-28">
-        <div className="container-x">
-          <SectionHeading
-            eyebrow="The team"
-            lines={['The people you', 'actually work with.']}
-            subtitle="No account managers relaying messages. You talk directly to whoever is doing the work."
-            className="mb-12"
-          />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((m, i) => (
-              <motion.article
-                key={m.role}
-                initial={{ opacity: 0, y: 26 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-70px' }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
-                className="group relative overflow-hidden rounded-2xl bg-ink-900"
-              >
-                <img
-                  src={m.image}
-                  alt={m.name}
-                  loading="lazy"
-                  className="graded aspect-[4/5] w-full object-cover opacity-85 transition-all [transition-duration:900ms] ease-out group-hover:scale-105 group-hover:opacity-60"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/25 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="text-[0.75rem] font-medium text-brand-300">{m.role}</p>
-                  <h3 className="mt-1 font-display text-[1.05rem] font-semibold tracking-tight text-white">
-                    {m.name}
-                  </h3>
-                  <p className="mt-2 max-h-0 overflow-hidden text-[0.82rem] leading-relaxed text-white/70 opacity-0 transition-all duration-500 group-hover:max-h-24 group-hover:opacity-100">
-                    {m.bio}
-                  </p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
         </div>
       </section>
 

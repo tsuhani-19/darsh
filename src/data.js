@@ -9,7 +9,7 @@ import { img } from './images.js'
    NOTE ON CONTENT
    Everything here describes capability and process — nothing invents a client,
    a testimonial, a revenue figure or a founding date. Fill in real project
-   results and real team members as you get them, and the layouts adapt.
+   results as you get them, and the layouts adapt.
 --------------------------------------------------------------------------- */
 
 export const serviceCategories = ['All', 'Build', 'Grow', 'Create', 'Automate']
@@ -188,37 +188,6 @@ export const commitments = [
   {
     title: 'We will tell you not to build it',
     text: 'If a feature will not serve your customers, we say so and explain why. Agreeing with everything is not a service.',
-  },
-]
-
-/* ---------------------------------------------------------------------------
-   TEAM — replace these with your real people and photos.
-   Drop headshots into /public/team/ and set `image: '/team/name.jpg'`.
---------------------------------------------------------------------------- */
-export const team = [
-  {
-    name: 'Sanjeev Tiwari',
-    role: 'Founder & Owner',
-    bio: 'Runs the studio and stays on every project from the first call through to launch.',
-    image: img.teamOne,
-  },
-  {
-    name: 'Add a name',
-    role: 'Design Lead',
-    bio: 'Brand, product design and the design system every project is built on.',
-    image: img.teamTwo,
-  },
-  {
-    name: 'Add a name',
-    role: 'Growth & Marketing',
-    bio: 'Paid media, SEO and the reporting that shows what the spend actually did.',
-    image: img.teamThree,
-  },
-  {
-    name: 'Harshit Tiwari',
-    role: 'Video & Motion',
-    bio: 'Short-form edits, motion graphics and everything that happens after the shoot.',
-    image: img.teamFour,
   },
 ]
 

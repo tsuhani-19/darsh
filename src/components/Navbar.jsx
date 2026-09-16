@@ -41,7 +41,7 @@ export default function Navbar() {
         }`}
       >
         <div className="container-x flex h-[4.75rem] items-center justify-between gap-6">
-          <Logo className="h-9 sm:h-11" size="sm" />
+          <Logo className="h-11 sm:h-14" />
 
           <nav className="hidden items-center gap-8 md:flex">
             {links.map((l) => (

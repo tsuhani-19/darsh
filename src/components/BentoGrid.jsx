@@ -66,7 +66,7 @@ export default function BentoGrid({ services }) {
         transition={{ duration: 0.6, delay: 0.08 }}
         className={cn(cell, 'flex flex-col justify-between border-transparent bg-ink-900 p-7 md:col-span-2')}
       >
-        <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 opacity-[0.18]">
+        <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 overflow-hidden rounded-full opacity-[0.18]">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}

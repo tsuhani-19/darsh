@@ -2,17 +2,14 @@
 export const site = {
   name: 'Darsh Innovations',
   // ---------------------------------------------------------------------
-  // LOGO. Save the two official files into /public, then point these paths at
-  // them. SVG is preferred (crisp from favicon to hero, a few KB); transparent
-  // PNG is fine as a fallback. See public/ADD-YOUR-LOGO-HERE.txt.
-  //   public/logo-full.*  -> the lockup (mark + "Darsh Innovations")
-  //   public/logo-mark.*  -> the swirl mark on its own
-  // Until they exist the site falls back to the vector stand-in in
-  // public/logo-mark.svg plus a typeset wordmark.
+  // LOGO. One official file, drawn everywhere through src/components/Logo.jsx:
+  //   public/logo.svg  -> the lockup (mark + "Darsh Innovations"), 1618 x 971
+  // The square mark used for avatars and watermarks is that same file seen
+  // through a crop, not a second asset, so the two can never drift apart.
+  // public/favicon.svg is the one exception: browsers refuse external
+  // references inside an SVG favicon, so it carries its own copy of the mark.
   // ---------------------------------------------------------------------
-  logoFull: '/logo-full.png',
-  logoMark: '/logo-mark.png',
-  logoFallback: '/logo-mark.svg',
+  logo: '/logo.svg',
   tagline: 'We design, build and launch digital products that move.',
   phone: '+91 92231 91191',
   phoneHref: 'tel:+919223191191',
@@ -22,11 +19,15 @@ export const site = {
   address: 'Building 102, Shanti Kutir, Tulinj Road, near Nallasopara East, Mumbai',
   city: 'Mumbai',
   hours: 'Mon – Sat · 10:00 – 19:00 IST',
+  // Put the real profile URL in `href` and the link appears in the footer.
+  // Anything still left blank (or on '#') is skipped rather than rendered as a
+  // link that goes nowhere — a dead social link costs more trust than a
+  // missing one.
   socials: [
-    { label: 'Instagram', href: '#' },
-    { label: 'LinkedIn', href: '#' },
-    { label: 'Dribbble', href: '#' },
-    { label: 'YouTube', href: '#' },
+    { label: 'Instagram', href: '' },
+    { label: 'LinkedIn', href: '' },
+    { label: 'Dribbble', href: '' },
+    { label: 'YouTube', href: '' },
   ],
 }
 
