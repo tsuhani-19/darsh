@@ -71,10 +71,20 @@ const SOCKET = 'radial-gradient(circle at 50% 50%, transparent 0 17.5%, #000 18.
 // rather than all at once.
 const windowFor = (i) => [0.03 + i * 0.085, 0.03 + i * 0.085 + 0.4]
 
-// The site's standard ease. Linear travel is the thing that makes a
-// scroll-scrubbed assembly feel like a slider being dragged; decelerating into
-// register is what makes it feel like a part being seated.
+// The site's standard ease, used for the punctuation beats (the scale punch,
+// the core seating, the shock ring) where a hard deceleration is the point.
 const EASE = cubicBezier(0.22, 1, 0.36, 1)
+
+// Travel is eased differently, and deliberately.
+//
+// The standard ease is extremely front-loaded: 76% of the distance is covered
+// in the first 25% of the window. A part therefore arrived almost fully seated
+// before it was even visible, and — read backwards, which is what scrolling up
+// does — it barely left register before disappearing, so it never visibly
+// returned to the corner it came from. This curve spreads the distance across
+// the window (24% covered at 25% of the way through) while still decelerating
+// into register, so the whole flight is legible in BOTH directions.
+const TRAVEL = cubicBezier(0.4, 0, 0.2, 1)
 
 /**
  * The finished face of the machine: the official mark on its own ground.
@@ -102,13 +112,15 @@ function MarkFace() {
 /** One quarter of the mark, flying in and seating. */
 function Part({ part, index, progress }) {
   const [start, end] = windowFor(index)
-  const opts = { ease: EASE }
+  const opts = { ease: TRAVEL }
 
   const x = useTransform(progress, [start, end], [part.from.x, 0], opts)
   const y = useTransform(progress, [start, end], [part.from.y, 0], opts)
   const rotate = useTransform(progress, [start, end], [part.from.rotate, 0], opts)
   const scale = useTransform(progress, [start, end], [0.5, 1], opts)
-  const opacity = useTransform(progress, [start, start + 0.1], [0, 1])
+  // A brief fade at the very start of the window, not a quarter of it: the part
+  // has to be on screen for its flight, not just for the landing.
+  const opacity = useTransform(progress, [start, start + 0.03], [0, 1])
 
   return (
     <motion.div

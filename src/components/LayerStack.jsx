@@ -16,6 +16,14 @@ import { cubicBezier, motion, useScroll, useSpring, useTransform } from 'framer-
 
 const EASE = cubicBezier(0.22, 1, 0.36, 1)
 
+// Travel is eased differently, for the same reason as AssemblyEngine: the
+// standard ease covers 76% of the distance in the first 25% of the window, so a
+// slab appeared almost fully landed and — scrolling back up — slipped off its
+// shelf and vanished rather than visibly returning to where it flew in from.
+// This spreads the distance across the window while still settling onto the
+// shelf, so the build reads the same in both directions.
+const TRAVEL = cubicBezier(0.4, 0, 0.2, 1)
+
 // Bottom of the stack first — the order slabs physically sit in, which is also
 // the order they get built in.
 const LAYERS = [
@@ -69,7 +77,7 @@ const MID = (LAYERS.length - 1) / 2
 
 function Slab({ layer, index, progress }) {
   const [start, end] = windowFor(index)
-  const opts = { ease: EASE }
+  const opts = { ease: TRAVEL }
 
   const x = useTransform(progress, [start, end], [layer.from, 0], opts)
   // Slabs come in from well above the deck and settle onto their own shelf.
@@ -81,7 +89,9 @@ function Slab({ layer, index, progress }) {
   // walks the top slab straight up into the heading.
   const z = useTransform(progress, [start, end], [460, (index - MID) * 64], opts)
   const rotate = useTransform(progress, [start, end], [layer.from > 0 ? 14 : -14, 0], opts)
-  const opacity = useTransform(progress, [start, start + 0.08], [0, 1])
+  // A brief fade at the very start of the window, not a quarter of it: the slab
+  // has to be on screen for its flight, not just for the landing.
+  const opacity = useTransform(progress, [start, start + 0.025], [0, 1])
 
   // Flashes at the moment its row in the list lights, then falls back to a
   // trace. Held at full, five lit rims at rest is five red outlines competing
