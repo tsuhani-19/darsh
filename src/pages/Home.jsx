@@ -17,7 +17,7 @@ import ParallaxBand from '../components/ParallaxBand.jsx'
 import AuroraMesh from '../components/AuroraMesh.jsx'
 import AssemblyEngine from '../components/AssemblyEngine.jsx'
 import SpectrumRule from '../components/SpectrumRule.jsx'
-import HeroCollage from '../components/HeroCollage.jsx'
+import HeroScene from '../components/HeroScene.jsx'
 import Magnetic from '../components/fx/Magnetic.jsx'
 import { MaskedHeading, Reveal, RevealImage, SectionHeading, SlideIn } from '../components/ui.jsx'
 import { services, process, commitments, capabilities } from '../data.js'
@@ -51,27 +51,21 @@ function Hero() {
   // the copy and the photographs leave at different rates, which is what gives
   // the hero depth as it scrolls away
   const copyY = useTransform(scrollYProgress, [0, 1], [0, 80])
-  // kept small: on a phone the hero is tall, and a bigger lift dragged the
-  // photographs up over the checklist above them
-  const artY = useTransform(scrollYProgress, [0, 1], [0, -18])
   // only the scroll hint fades — fading the whole hero dimmed the copy while
   // it was still the thing being read
   const hintFade = useTransform(scrollYProgress, [0, 0.25], [1, 0])
 
   return (
     <section ref={ref} className="relative overflow-hidden bg-white pt-24 sm:pt-28">
-      {/* ---------- background stack ---------- */}
-      <div className="pointer-events-none absolute -right-48 -top-32 h-[32rem] w-[32rem] rounded-full bg-brand-50/80 blur-3xl" />
-      <div className="pointer-events-none absolute -left-40 top-40 h-[24rem] w-[24rem] rounded-full bg-steel-50/60 blur-3xl" />
-      <motion.div
-        aria-hidden="true"
-        animate={{ scale: [1, 1.15, 1], x: [0, 40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[26rem] rounded-full bg-crimson-50/60 blur-3xl"
-      />
+      {/* ---------- the scene the whole hero stands inside ---------- */}
+      <HeroScene />
+      {/* the copy sits on the pale left third of the scene; this veil keeps it
+          legible on narrow screens, where the corridor crops inwards */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white from-30% via-white/80 via-46% to-transparent to-64% lg:from-24% lg:via-white/70 lg:via-40% lg:to-56%" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
 
-      <div className="container-x relative grid items-center gap-12 pb-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14 lg:pb-20">
-        <motion.div style={{ y: copyY }}>
+      <div className="container-x relative pb-20 pt-4 sm:pb-28 lg:min-h-[34rem] lg:pb-36 lg:pt-10">
+        <motion.div style={{ y: copyY }} className="max-w-xl lg:max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -146,10 +140,6 @@ function Hero() {
               </motion.li>
             ))}
           </motion.ul>
-        </motion.div>
-
-        <motion.div style={{ y: artY }}>
-          <HeroCollage />
         </motion.div>
       </div>
 
