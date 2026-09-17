@@ -80,7 +80,7 @@ export default function BentoGrid({ services }) {
           Everything under one roof
         </p>
         <p className="relative mt-4 font-display text-[1.3rem] font-bold leading-snug tracking-tight text-white">
-          Design, engineering, marketing and video — briefed once, delivered together.
+          Design, engineering, marketing and video: briefed once, delivered together.
         </p>
         <div className="relative mt-5 flex items-center gap-4">
           <Link

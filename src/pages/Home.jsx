@@ -105,9 +105,9 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.35 }}
             className="lede mt-6 max-w-xl"
           >
-            We design, build and market digital products. The site, the app, the ads
-            and the video all come from the same people — so nothing gets lost in the
-            handover between vendors.
+            We design, build and market digital products. The website, the app, the ads
+            and the video come from the same people, so you are not the one passing
+            information between four different suppliers.
           </motion.p>
 
           <motion.div
@@ -134,7 +134,7 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.6 }}
             className="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-line pt-7 text-[0.83rem] text-ink-500"
           >
-            {['Fixed quote before we start', 'Staging link from week one', 'You own everything'].map((t, i) => (
+            {['Fixed quote before we start', 'Test link from week one', 'You own everything'].map((t, i) => (
               <motion.li
                 key={t}
                 initial={{ opacity: 0, x: -8 }}
@@ -188,7 +188,7 @@ function StatementSection() {
         <SpectrumRule className="mb-10 max-w-[7rem]" />
         <p className="eyebrow mb-7">Why us</p>
         <ScrollHighlight
-          text="Most agencies hand you a beautiful mockup and disappear. We design it, build it, launch it, run the campaigns behind it and cut the video that sells it — then stay on once real users arrive."
+          text="A design on its own does not do much. We take it through to a working product, put it live, run the ads and video around it, and stay involved once real people start using it."
           accentFrom={20}
           className="font-display text-[1.6rem] font-semibold leading-[1.4] tracking-[-0.015em] text-ink-900 sm:text-[2.15rem]"
         />
@@ -219,11 +219,12 @@ function CompareSection() {
             Drag it and see.
           </h2>
           <p className="lede mt-5">
-            A redesign is not a new coat of paint. Layout, hierarchy, speed and copy all change
-            together, which is why the result converts rather than just looking newer.
+            A redesign is more than new colours. The layout, the wording, the order things
+            appear in and how fast the page loads all change together — so it is easier to
+            use, not just newer to look at.
           </p>
           <p className="mt-5 text-[0.85rem] text-ink-400">
-            Pull the handle across — or use the arrow keys.
+            Drag the handle across, or use the arrow keys.
           </p>
         </SlideIn>
         <SlideIn from="right" delay={0.1}>
@@ -258,12 +259,13 @@ function Approach() {
             </h2>
             <p className="lede mt-5">
               The usual setup is a design agency, a development shop, a media buyer and a
-              freelance editor who have never spoken to each other. Every handover leaks a
-              little detail, the brand drifts, and when something breaks nobody owns it.
+              freelance editor who have never spoken to each other. Details get dropped at
+              every handover, the brand slowly drifts, and when something breaks it is not
+              clear whose job it is to fix.
             </p>
             <p className="lede mt-4">
-              We keep all four in one studio. One brief, one point of contact, one standard
-              applied to the site, the app, the ads and the video.
+              We keep all four in one studio. You write the brief once, you have one person
+              to call, and the same care goes into the site, the app, the ads and the video.
             </p>
           </SlideIn>
         </div>
@@ -276,9 +278,9 @@ function Approach() {
               You watch it get built.
             </h2>
             <p className="lede mt-5">
-              There is no long silence between kickoff and reveal. A staging link exists from
-              the first week and updates as we go, so you are reacting to something real
-              while changes are still cheap.
+              There is no long silence between kickoff and a big reveal. A private test link
+              goes up in the first week and updates as we work, so you are looking at the real
+              thing while changes are still quick to make.
             </p>
             <div className="mt-7 grid gap-5 sm:grid-cols-2">
               {commitments.slice(0, 4).map((c, i) => (
@@ -318,7 +320,7 @@ function ServicesSection() {
     <section className="snap-sec border-t border-line bg-mist py-20 sm:py-28">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="What we do" lines={['Nine disciplines,', 'one standard.']} />
+          <SectionHeading eyebrow="What we do" lines={['Nine services,', 'one team.']} />
           <Reveal delay={0.15}>
             <Link to="/services" className="btn-outline">
               All services <ArrowRight size={15} />
@@ -340,9 +342,9 @@ function EstimatorSection() {
       <div className="container-x">
         <SectionHeading
           align="center"
-          eyebrow="Before you even call"
-          lines={['Get a rough number', 'in ten seconds.']}
-          subtitle="Most studios make you book a call to find out if you can afford them. Pick what you need and see the shape of it right now."
+          eyebrow="Before you call"
+          lines={['See a rough number', 'first.']}
+          subtitle="Tick the parts of the job you need and you will get an approximate timeline and starting budget. It is a starting point for the conversation, not a quote."
           className="mb-12"
         />
         <Reveal>
@@ -361,8 +363,8 @@ function ProcessSection() {
         <div className="mb-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionHeading
             eyebrow="How we work"
-            lines={['Four steps, and you', 'see all of them.']}
-            subtitle="Every stage has a date, a deliverable and a price attached before it starts. Nothing happens behind a curtain."
+            lines={['Four stages, and you', 'see all of them.']}
+            subtitle="Each stage has a date, something you receive at the end of it and a price, all agreed before it starts."
           />
           <Reveal delay={0.15}>
             <Link to="/contact" className="btn-dark whitespace-nowrap">
@@ -383,7 +385,7 @@ function CommitmentSection() {
       <div className="container-x">
         <SectionHeading
           eyebrow="What you get"
-          lines={['Six things we put', 'in writing.']}
+          lines={['Six things we', 'put in writing.']}
           className="mb-12"
         />
         <SpotlightCards items={commitments} />
@@ -430,8 +432,9 @@ export function CTA() {
                 />
                 <Reveal delay={0.2}>
                   <p className="mt-5 max-w-lg text-[1rem] leading-relaxed text-ink-300">
-                    A free 30-minute call. We will tell you what it takes, what it costs, and
-                    whether we are the right people for it — you leave with a plan either way.
+                    A free 30-minute call. We will tell you what the work involves, what it
+                    costs and whether we are the right people for it. If we are not, we will
+                    say so.
                   </p>
                 </Reveal>
               </div>

@@ -10,7 +10,7 @@ export const site = {
   // references inside an SVG favicon, so it carries its own copy of the mark.
   // ---------------------------------------------------------------------
   logo: '/logo.svg',
-  tagline: 'We design, build and launch digital products that move.',
+  tagline: 'We design, build and launch digital products, then help them grow.',
   phone: '+91 92231 91191',
   phoneHref: 'tel:+919223191191',
   whatsapp: '919223191191', // country code + number, digits only

@@ -14,19 +14,19 @@ import { img } from '../images.js'
 const refusals = [
   {
     t: 'Work we are not the right fit for',
-    d: 'Wrong scope, wrong timeline, or a job another team would genuinely do better. We say so on the first call rather than three weeks in.',
+    d: 'Wrong scope, wrong timeline, or a job another team would honestly do better. We say so on the first call rather than three weeks in.',
   },
   {
     t: 'Features that will not earn their place',
-    d: 'If something will not serve your customers, we will argue against building it — even when building it would bill more hours.',
+    d: 'If a feature will not help your customers, we will make the case against building it, even though building it would add to the invoice.',
   },
   {
     t: 'Open-ended hourly arrangements',
-    d: 'Scope and price are fixed in writing before work starts. Underestimating is our problem to absorb, not a surprise on your invoice.',
+    d: 'Scope and price are agreed in writing before work starts. If we underestimate something, that is ours to absorb — it does not appear on your invoice.',
   },
   {
     t: 'Handing your project to someone else',
-    d: 'The people you meet are the people who build it. No quiet transfer to juniors once the contract is signed.',
+    d: 'The people you meet are the people who build it. Nothing is quietly passed to someone else once the contract is signed.',
   },
 ]
 
@@ -36,7 +36,7 @@ export default function About() {
       <PageHero
         eyebrow="About"
         lines={['A small studio that', 'would rather do', 'four things properly.']}
-        subtitle="Darsh Innovations is a digital studio in Mumbai. We design and build websites, web and mobile applications, then run the marketing and video work that makes them worth having."
+        subtitle="Darsh Innovations is a digital studio in Mumbai. We design and build websites, web apps and mobile apps, and we run the marketing and video work that brings people to them."
         chips={['Design', 'Engineering', 'Marketing', 'Video', 'Mumbai']}
         actions={
           <>
@@ -68,16 +68,16 @@ export default function About() {
             <Reveal delay={0.2}>
               <p className="lede mt-6">
                 The usual setup is a design agency, a development shop, a media buyer and a
-                freelance editor who have never spoken to each other. Every handover loses a little
-                intent. The brand drifts. And when something breaks, everybody points somewhere
-                else.
+                freelance editor who have never spoken to each other. A little of the original
+                intent is lost at each handover, the brand slowly drifts, and when something
+                breaks everybody points at somebody else.
               </p>
             </Reveal>
             <Reveal delay={0.28}>
               <p className="lede mt-4">
-                We put those four disciplines in one studio and keep the client list short on
-                purpose. That is the entire idea — fewer projects than a larger agency takes, and
-                work that holds together because the same people made all of it.
+                We put those four disciplines in one studio and take on a small number of
+                projects at a time. That is the whole idea: fewer clients than a large agency
+                would carry, and work that holds together because the same people made all of it.
               </p>
             </Reveal>
           </div>
@@ -101,7 +101,7 @@ export default function About() {
           />
           <div className="container-x relative flex h-full items-center">
             <MaskedHeading
-              lines={['We would rather say no', 'than take work we', 'cannot do well.']}
+              lines={['We would rather say no', 'than take on work we', 'cannot do well.']}
               className="max-w-3xl font-display text-[1.6rem] font-bold leading-[1.25] tracking-[-0.02em] text-white sm:text-[2.4rem]"
             />
           </div>
@@ -162,8 +162,8 @@ export default function About() {
               ))}
             </div>
             <p className="mt-6 max-w-xl text-[0.9rem] leading-relaxed text-ink-400">
-              We pick tools to fit the project rather than the other way round. If nothing here is
-              right for what you need, we will tell you what is.
+              We choose tools to suit the project rather than the other way round. If nothing
+              here fits what you need, we will point you to what does.
             </p>
           </Reveal>
         </div>

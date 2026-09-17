@@ -28,7 +28,7 @@ export default function Contact() {
       <PageHero
         eyebrow="Contact"
         lines={['Tell us what you', 'are trying to build.']}
-        subtitle="No form disappearing into an inbox. Fill this in and it opens WhatsApp with your brief already written — or just call and skip the typing."
+        subtitle="This form does not vanish into an inbox. Fill it in and it opens WhatsApp with your brief already written out — or call instead and skip the typing."
         chips={['Free 30-minute call', 'No pitch deck', 'Reply within a working day']}
         art={<ContactArt />}
       />
@@ -46,7 +46,7 @@ export default function Contact() {
                 tone="bg-brand-600"
                 title="Call"
                 value={site.phone}
-                note="Straight through to a strategist"
+                note="You get a person, not a queue"
                 href={site.phoneHref}
               />
             </Reveal>
@@ -56,7 +56,7 @@ export default function Contact() {
                 tone="bg-steel-500"
                 title="WhatsApp"
                 value="Start a chat"
-                note="Usually answered within minutes"
+                note="Often the quickest way to reach us"
                 href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`}
                 external
               />
@@ -86,9 +86,9 @@ export default function Contact() {
                     What happens on the first call
                   </p>
                   <p className="mt-2 text-[0.86rem] leading-relaxed text-ink-500">
-                    Thirty minutes. We ask about your business and the outcome you need, then tell
-                    you what it realistically takes and costs. No deck, no pitch, no follow-up
-                    sequence.
+                    Thirty minutes. We ask about your business and what you need this project to
+                    achieve, then tell you what that realistically takes and costs. No slide deck
+                    and no follow-up emails you did not ask for.
                   </p>
                 </div>
               </div>
@@ -102,7 +102,7 @@ export default function Contact() {
           <SectionHeading
             eyebrow="After you send it"
             lines={['What happens next.']}
-            subtitle="Three steps, no drip campaign and no chasing."
+            subtitle="Three steps, and no marketing emails afterwards."
             className="mb-12"
           />
           <ol className="grid gap-5 md:grid-cols-3">
@@ -110,17 +110,17 @@ export default function Contact() {
               {
                 n: '01',
                 t: 'We read it properly',
-                d: 'A person reads your brief, not an autoresponder. If something is unclear we ask one or two questions on WhatsApp.',
+                d: 'A person reads your brief — there is no autoresponder. If anything is unclear we ask a question or two on WhatsApp.',
               },
               {
                 n: '02',
                 t: 'A 30-minute call',
-                d: 'We talk through what you need and what it realistically takes. You get an honest read even if that read is "not us".',
+                d: 'We talk through what you need and what it realistically takes to build. If we are not the right studio for it, we will say so on that call.',
               },
               {
                 n: '03',
                 t: 'A written proposal',
-                d: 'Scope, timeline and a fixed price in writing within two working days. No pressure and no expiry countdown.',
+                d: 'Scope, timeline and a fixed price in writing within two working days. No pressure and no expiry date on the number.',
               },
             ].map((step, i) => (
               <motion.li
@@ -212,7 +212,7 @@ function BriefBuilder() {
     <form onSubmit={submit} className="rounded-2xl border border-line bg-white p-6 sm:p-9">
       <h2 className="font-display text-2xl font-bold tracking-tight text-ink-900">Your brief</h2>
       <p className="mt-2 text-[0.9rem] text-ink-500">
-        Takes about thirty seconds. It opens in WhatsApp with everything filled in.
+        A few short answers. It opens WhatsApp with everything written out for you.
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -278,7 +278,7 @@ function BriefBuilder() {
 
       {touched && !valid && (
         <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-4 text-[0.82rem] text-crimson-500">
-          Add your name and a line or two about the project and we are good to go.
+          Please add your name and a line or two about the project.
         </motion.p>
       )}
 

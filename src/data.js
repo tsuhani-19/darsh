@@ -32,7 +32,7 @@ export const services = [
     category: 'Build',
     icon: LayoutDashboard,
     title: 'Web applications',
-    blurb: 'Dashboards, portals, CRMs and internal tools built to survive real usage.',
+    blurb: 'Dashboards, portals, CRMs and internal tools built for daily use by real teams.',
     points: ['React front ends, Node or Rust APIs', 'Roles and permissions', 'Reporting and exports', 'Deployed and monitored'],
     image: img.svcWebApps,
     tone: 'brand',
@@ -65,7 +65,7 @@ export const services = [
     category: 'Create',
     icon: Clapperboard,
     title: 'Video editing & motion',
-    blurb: 'Reels, ads, explainers and brand films, cut and graded in house.',
+    blurb: 'Reels, ads, explainers and brand films, edited and colour graded in house.',
     points: ['Short-form for social', 'Motion graphics', 'Colour and sound', 'Subtitles and versioning'],
     image: img.svcVideo,
     tone: 'gold',
@@ -76,7 +76,7 @@ export const services = [
     category: 'Create',
     icon: PenTool,
     title: 'Branding & UI/UX',
-    blurb: 'Identity and product design that makes everything downstream easier.',
+    blurb: 'Identity and product design, so everything built afterwards looks like one thing.',
     points: ['Logo and identity systems', 'Design systems in Figma', 'Prototypes for testing', 'Usability reviews'],
     image: img.svcBranding,
     tone: 'brand',
@@ -87,7 +87,7 @@ export const services = [
     category: 'Grow',
     icon: Search,
     title: 'SEO & content',
-    blurb: 'Technical fixes plus content that earns its place on the results page.',
+    blurb: 'Technical fixes, plus content written around what people actually search for.',
     points: ['Technical audits', 'Keyword and topic mapping', 'Local SEO', 'Content production'],
     image: img.svcSeo,
     tone: 'steel',
@@ -133,7 +133,7 @@ export const process = [
     step: '01',
     title: 'Discovery',
     duration: '3–5 days',
-    text: 'A working session on your business, your customers and what this project has to achieve. Nothing is designed or costed until we agree on that.',
+    text: 'A working session on your business, your customers and what this project has to achieve. Nothing gets designed or priced until we agree on that.',
     deliverable: 'Written scope, timeline and a fixed quote',
     image: img.stepDiscovery,
   },
@@ -141,7 +141,7 @@ export const process = [
     step: '02',
     title: 'Design',
     duration: '1–2 weeks',
-    text: 'Wireframes first, then full design. You review it before anyone writes code, which is when changes still cost minutes instead of weeks.',
+    text: 'Rough layouts first, then the full design. You review it before anyone writes code, while a change still takes minutes rather than weeks.',
     deliverable: 'A clickable prototype in Figma',
     image: img.stepDesign,
   },
@@ -149,15 +149,15 @@ export const process = [
     step: '03',
     title: 'Build',
     duration: '2–10 weeks',
-    text: 'Short cycles, tested as we go. You see progress as it happens and can redirect us long before something has gone too far to change.',
-    deliverable: 'A staging link, updated continuously',
+    text: 'Short cycles, tested as we go. You see progress as it happens and can change direction well before anything is too far along to alter.',
+    deliverable: 'A private test link, updated as we work',
     image: img.stepBuild,
   },
   {
     step: '04',
     title: 'Launch & after',
     duration: 'Ongoing',
-    text: 'We deploy it, wire up analytics and train your team on it. Then we stay on for monitoring, fixes and whatever the real usage data suggests.',
+    text: 'We put it live, set up analytics and train your team on it. After that we stay on for monitoring, fixes and the changes real usage turns out to need.',
     deliverable: 'Live product, analytics and handover',
     image: img.stepLaunch,
   },
@@ -167,15 +167,15 @@ export const process = [
 export const commitments = [
   {
     title: 'A fixed quote before we start',
-    text: 'Scope and price are agreed in writing. If we underestimate something, absorbing it is our problem, not your invoice.',
+    text: 'Scope and price are agreed in writing. If we underestimate something, that is ours to absorb rather than something added to your invoice.',
   },
   {
-    title: 'A staging link from week one',
-    text: 'You watch the thing get built instead of waiting for a reveal that arrives too late to change.',
+    title: 'A test link from week one',
+    text: 'You watch it being built instead of waiting for a reveal that lands too late to change.',
   },
   {
     title: 'The people you meet do the work',
-    text: 'No handover to a junior after signing. The person in your first call is the person building it.',
+    text: 'Nothing is handed to a junior after signing. The person on your first call is the person building it.',
   },
   {
     title: 'You own everything',
@@ -183,11 +183,11 @@ export const commitments = [
   },
   {
     title: 'Answers within one working day',
-    text: 'Calls, WhatsApp or email. If something will be late, you hear it from us before you have to ask.',
+    text: 'By call, WhatsApp or email. If something is going to be late, you hear it from us before you have to ask.',
   },
   {
     title: 'We will tell you not to build it',
-    text: 'If a feature will not serve your customers, we say so and explain why. Agreeing with everything is not a service.',
+    text: 'If a feature will not help your customers, we say so and explain why. Agreeing with everything would not be much use to you.',
   },
 ]
 
@@ -199,26 +199,26 @@ export const capabilities = [
 export const faqs = [
   {
     q: 'How long does a project take?',
-    a: 'A marketing website is usually 3–5 weeks. A web or mobile app is 8–14 weeks depending on scope. You get a week-by-week plan before we start, and we tell you early if anything threatens it.',
+    a: 'A marketing website usually takes 3–5 weeks. A web or mobile app takes 8–14 weeks, depending on scope. You get a week-by-week plan before we start, and we tell you early if anything puts it at risk.',
   },
   {
     q: 'What does it cost?',
-    a: 'A focused website starts around ₹60,000. Apps and platforms are quoted on scope after a discovery call. Either way the price is agreed before work begins — we do not bill surprise hours.',
+    a: 'A small, focused website starts around ₹60,000. Apps and larger platforms are quoted on scope after a discovery call. Either way the price is agreed before work begins; we do not bill hours you did not expect.',
   },
   {
     q: 'Do you work with early-stage companies?',
-    a: 'Yes. We scope in phases so you can launch a tight first version, learn from real users, and expand based on what they actually do rather than assumptions.',
+    a: 'Yes. We split the work into phases so you can launch a small first version, learn from real users, and build the rest around what they actually do.',
   },
   {
     q: 'What happens after launch?',
-    a: 'Optional monthly care covers hosting, updates, monitoring, backups and a block of improvement hours. You can also take it all in-house — it is your code and your accounts.',
+    a: 'There is an optional monthly plan covering hosting, updates, monitoring, backups and a set number of improvement hours. You can also take it all in-house — the code and the accounts are yours.',
   },
   {
     q: 'Can you take over an existing project?',
-    a: 'Usually. We start with a short paid audit of the codebase and give you an honest read on whether to fix or rebuild, even when rebuilding would be the bigger job for us.',
+    a: 'Usually, yes. We start with a short paid review of the existing code and tell you honestly whether it is better to repair it or start again — including when repairing it is the smaller job for us.',
   },
   {
     q: 'Who actually does the work?',
-    a: 'The people you meet on the first call. We are a small team and we do not pass projects down after signing.',
+    a: 'The people you meet on the first call. We are a small team, and projects are not passed down to anyone else after signing.',
   },
 ]

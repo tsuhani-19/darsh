@@ -29,8 +29,8 @@ export default function Footer() {
               <LogoLockup className="h-14" />
             </div>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-400">
-              A digital studio in Mumbai. Design, engineering, marketing and video under one
-              roof, so the work stays consistent from first sketch to launch day.
+              A digital studio in Mumbai. Design, engineering, marketing and video in one
+              place, so the work stays consistent from the first sketch to launch day.
             </p>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
               {site.socials

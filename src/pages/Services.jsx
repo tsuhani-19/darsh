@@ -25,9 +25,9 @@ export default function Services() {
     <PageTransition>
       <PageHero
         eyebrow="Services"
-        lines={['Everything you need', 'to launch it, and', 'then grow it.']}
-        subtitle="Take one service or hand us the whole thing. Either way you get one team, one timeline and one person answerable for the outcome."
-        chips={['Nine disciplines', 'One point of contact', 'Fixed quotes']}
+        lines={['Build it, launch it,', 'then grow it.']}
+        subtitle="Take a single service or hand over the whole project. Either way there is one team, one schedule, and one person you can ask about any part of it."
+        chips={['Nine services', 'One point of contact', 'Fixed quotes']}
         actions={
           <Link to="/contact" className="btn-spectrum">
             Start a project <ArrowRight size={15} />
@@ -47,7 +47,7 @@ export default function Services() {
           <SectionHeading
             eyebrow="Engagement"
             lines={['From first call', 'to live product.']}
-            subtitle="Every stage has a date, a deliverable and a price attached before it starts."
+            subtitle="Each stage has a date, something you receive at the end of it and a price, all agreed before it starts."
             className="mb-14"
           />
           <ProcessTimeline items={process} />
@@ -81,7 +81,7 @@ export default function Services() {
       <section className="border-t border-line py-24 sm:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading eyebrow="Questions" lines={['The ones we get', 'every week.']} />
+            <SectionHeading eyebrow="Questions" lines={['The ones we are', 'asked most often.']} />
             <Reveal delay={0.2}>
               <Link to="/contact" className="btn-primary mt-8">
                 Ask us something else <ArrowRight size={15} />

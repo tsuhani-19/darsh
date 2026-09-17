@@ -6,7 +6,7 @@ import { LogoMark } from './Logo.jsx'
 
 const SCRIPT = [
   'Hi — thanks for stopping by.',
-  'Whether it is a website, an app, marketing or video, someone here can give you a straight answer.',
+  'Website, app, marketing or video: ask us anything and you will get a straight answer.',
   'How would you like to talk?',
 ]
 
@@ -95,7 +95,7 @@ export default function AssistantWidget() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="font-display text-[0.9rem] font-bold text-ink-900">Darsh Assistant</p>
-                <p className="text-[0.7rem] text-steel-600">Online now</p>
+                <p className="text-[0.7rem] text-steel-600">{site.hours}</p>
               </div>
               <button
                 onClick={() => setOpen(false)}
@@ -157,7 +157,7 @@ export default function AssistantWidget() {
                     </span>
                     <span className="flex-1">
                       <span className="block text-[0.85rem] font-semibold text-ink-900">Chat on WhatsApp</span>
-                      <span className="block text-[0.72rem] text-ink-400">Usually replies in minutes</span>
+                      <span className="block text-[0.72rem] text-ink-400">Often the quickest way to reach us</span>
                     </span>
                     <span className="text-ink-300 transition-transform group-hover:translate-x-0.5">→</span>
                   </motion.a>
@@ -180,7 +180,7 @@ export default function AssistantWidget() {
               onClick={() => setOpen(true)}
               className="hidden rounded-xl rounded-br-sm border border-line bg-white px-3.5 py-2.5 text-[0.82rem] text-ink-700 shadow-lift sm:block"
             >
-              Questions? Talk to us
+              Any questions? Talk to us
             </motion.button>
           )}
         </AnimatePresence>

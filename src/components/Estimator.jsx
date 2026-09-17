@@ -51,13 +51,13 @@ export default function Estimator() {
         {/* choices */}
         <div className="p-7 sm:p-10">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-brand-600">
-            <Sparkles size={13} /> Instant estimate
+            <Sparkles size={13} /> Rough estimate
           </span>
           <h3 className="mt-5 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-[1.9rem]">
             What do you need building?
           </h3>
           <p className="mt-2.5 max-w-md text-[0.92rem] leading-relaxed text-ink-500">
-            Pick everything that applies. The range updates as you go — it is a
+            Tick everything that applies. The numbers update as you go. They are a
             starting point for the conversation, not a quote.
           </p>
 
@@ -107,7 +107,7 @@ export default function Estimator() {
               Send this as a brief <Send size={15} />
             </button>
             <p className="mt-3 text-center text-[0.72rem] leading-relaxed text-ink-400">
-              Opens WhatsApp with your selection written out. Final pricing comes
+              Opens WhatsApp with your selection written out. The real price is agreed
               after a discovery call.
             </p>
           </div>

@@ -227,7 +227,7 @@ export default function AssemblyEngine() {
         <div className="container-x relative flex h-full w-full flex-col items-center justify-center pb-8 pt-[4.75rem]">
           <p className="eyebrow !text-brand-400">How the work fits together</p>
           <h2 className="mt-2.5 max-w-xl text-center font-display text-[1.6rem] font-bold leading-tight tracking-tight text-white sm:text-[2.1rem]">
-            Four disciplines, one moving part
+            Four kinds of work, one team
           </h2>
 
           {/* The stage. Its width sets how far apart the four labels sit; the
@@ -291,7 +291,7 @@ export default function AssemblyEngine() {
               Darsh <span className="text-brand-500">Innovations</span>
             </p>
             <p className="mt-2 max-w-md text-center text-[0.85rem] leading-relaxed text-ink-400">
-              One senior team holds all four — so nothing is lost in a handover.
+              The same team handles all four, so nothing is lost between them.
             </p>
             <Link to="/services" className="btn-primary mt-5 !px-5 !py-2.5 !text-[0.85rem]">
               See what we do
