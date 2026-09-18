@@ -87,9 +87,14 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-white pt-[4.5rem] md:hidden"
+            className="fixed inset-0 z-40 w-screen max-w-full overflow-y-auto overscroll-contain bg-white pt-[4.5rem] md:hidden"
           >
-            <div className="container-x flex h-full flex-col pt-6">
+            {/* `h-full` pinned the panel to the viewport and clipped anything
+                past it, so on a short phone the two buttons under the links
+                simply were not reachable. Min-height keeps the full-screen
+                look; the overflow on the sheet above lets it scroll when the
+                contents genuinely do not fit. */}
+            <div className="container-x flex min-h-full flex-col pb-10 pt-6">
               {links.map((l, i) => (
                 <motion.div
                   key={l.to}

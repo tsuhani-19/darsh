@@ -23,6 +23,17 @@
     /* the header is fixed, so anchors and snap points must clear it */
     scroll-padding-top: 4.75rem;
   }
+  /* Nothing on the page is meant to be reached by scrolling sideways, but the
+     motion layer brings things in from off the edge — and a 60px entrance is
+     wider than a phone's 20px gutter, so on a narrow screen the page picked up
+     a horizontal scrollbar and every fixed overlay (the mobile menu most
+     visibly) was laid out against the wider document instead of the viewport.
+     `clip` rather than `hidden`: `hidden` would make this a scroll container
+     and break every `position: sticky` on the site, of which there are many. */
+  html,
+  body {
+    overflow-x: clip;
+  }
   body {
     @apply bg-paper font-body text-ink-600 antialiased;
   }
@@ -229,7 +240,7 @@
 
   /* Inline link whose rule wipes in from the left instead of fading. */
   .link-wipe {
-    @apply relative inline-flex items-center gap-1.5 font-semibold text-brand-500;
+    @apply relative inline-flex min-h-[1.5rem] items-center gap-1.5 font-semibold text-brand-500;
   }
   .link-wipe::after {
     content: '';

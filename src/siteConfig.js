@@ -15,7 +15,7 @@ export const site = {
   phoneHref: 'tel:+919223191191',
   whatsapp: '919223191191', // country code + number, digits only
   whatsappMessage: 'Hi Darsh Innovations! I would like to discuss a project.',
-  email: 'hello@darshinnovations.com',
+  email: 'darshinnovations@gmail.com',
   address: 'Building 102, Shanti Kutir, Tulinj Road, near Nallasopara East, Mumbai',
   city: 'Mumbai',
   hours: 'Mon – Sat · 10:00 – 19:00 IST',

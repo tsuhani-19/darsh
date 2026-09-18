@@ -1,6 +1,45 @@
+import { useEffect, useState } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 
 const EASE = [0.22, 1, 0.36, 1]
+
+/* Tailwind's `sm` breakpoint, as a value JS can read. Anything below it is a
+   phone held upright. */
+const NARROW = '(max-width: 639.98px)'
+
+/**
+ * True on a phone-width screen.
+ *
+ * The motion layer is the one part of the site a media query in CSS cannot
+ * reach: Framer drives transforms from JS, so a travel distance chosen for a
+ * desktop column stays the same on a 390px screen unless something tells it
+ * otherwise. This is that something.
+ */
+export function useNarrowScreen() {
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(NARROW).matches,
+  )
+  useEffect(() => {
+    const mq = window.matchMedia(NARROW)
+    const onChange = (e) => setNarrow(e.matches)
+    setNarrow(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  return narrow
+}
+
+/**
+ * A sideways entrance, clamped to what the viewport can actually absorb.
+ *
+ * A phone's content column is the full screen less a 20px gutter, so any
+ * horizontal travel larger than that gutter starts the element beyond the
+ * edge of the page. Below `sm` the distance is cut to fit inside it; from
+ * `sm` up the travel is unchanged.
+ */
+export function useSlideDistance(distance) {
+  return useNarrowScreen() ? Math.min(distance, 16) : distance
+}
 
 /* ---------- thin reading-progress bar ---------- */
 export function ScrollProgress() {
@@ -75,7 +114,8 @@ export function MaskedHeading({ lines, className = '', delay = 0, as: Tag = 'h2'
 
 /* ---------- slide in from a side as it scrolls into view ---------- */
 export function SlideIn({ children, from = 'left', delay = 0, distance = 60, className = '' }) {
-  const axis = from === 'left' ? -distance : distance
+  const travel = useSlideDistance(distance)
+  const axis = from === 'left' ? -travel : travel
   return (
     <motion.div
       initial={{ opacity: 0, x: axis }}

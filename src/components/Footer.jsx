@@ -55,7 +55,7 @@ export default function Footer() {
               {[['Home', '/'], ['About', '/about'], ['Services', '/services'], ['Contact', '/contact']].map(
                 ([label, to]) => (
                   <li key={to}>
-                    <Link to={to} className="text-ink-400 transition-colors hover:text-white">
+                    <Link to={to} className="inline-flex min-h-[1.5rem] items-center text-ink-400 transition-colors hover:text-white">
                       {label}
                     </Link>
                   </li>
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-3 text-sm">
               {services.slice(0, 6).map((s) => (
                 <li key={s.slug}>
-                  <Link to="/services" className="text-ink-400 transition-colors hover:text-white">
+                  <Link to="/services" className="inline-flex min-h-[1.5rem] items-center text-ink-400 transition-colors hover:text-white">
                     {s.title.split(' &')[0]}
                   </Link>
                 </li>
@@ -81,12 +81,12 @@ export default function Footer() {
             <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white">Get in touch</h3>
             <ul className="mt-5 space-y-4 text-sm">
               <li>
-                <a href={site.phoneHref} className="flex items-center gap-3 text-ink-400 transition-colors hover:text-white">
+                <a href={site.phoneHref} className="flex min-h-[1.5rem] items-center gap-3 text-ink-400 transition-colors hover:text-white">
                   <Phone size={15} className="text-steel-300" /> {site.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${site.email}`} className="flex items-center gap-3 text-ink-400 transition-colors hover:text-white">
+                <a href={`mailto:${site.email}`} className="flex min-h-[1.5rem] items-center gap-3 break-all text-ink-400 transition-colors hover:text-white">
                   <Mail size={15} className="text-brand-300" /> {site.email}
                 </a>
               </li>

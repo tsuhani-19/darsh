@@ -85,7 +85,7 @@ export default function BentoGrid({ services }) {
         <div className="relative mt-5 flex items-center gap-4">
           <Link
             to="/services"
-            className="inline-flex items-center gap-1.5 text-[0.85rem] font-semibold text-white"
+            className="inline-flex min-h-[1.5rem] items-center gap-1.5 text-[0.85rem] font-semibold text-white"
           >
             See the full list
             <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5" />

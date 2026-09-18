@@ -59,9 +59,15 @@ function Hero() {
     <section ref={ref} className="relative overflow-hidden bg-white pt-24 sm:pt-28">
       {/* ---------- the scene the whole hero stands inside ---------- */}
       <HeroScene />
-      {/* the copy sits on the pale left third of the scene; this veil keeps it
-          legible on narrow screens, where the corridor crops inwards */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white from-30% via-white/80 via-46% to-transparent to-64% lg:from-24% lg:via-white/70 lg:via-40% lg:to-56%" />
+      {/* The copy sits on the pale left third of the scene, and this veil is
+          what keeps it legible where the corridor crops inwards.
+
+          On a phone the copy is not a left third — it is the whole column, so
+          it runs straight across the red. The veil therefore holds white much
+          further over below `sm` and never falls to fully transparent, which
+          is what the paragraph and the tick list were being lost in. From
+          `sm` up the original three stops are restored unchanged. */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white from-60% via-white/90 via-82% to-white/70 to-100% sm:from-30% sm:via-white/80 sm:via-46% sm:to-transparent sm:to-64% lg:from-24% lg:via-white/70 lg:via-40% lg:to-56%" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
 
       <div className="container-x relative pb-20 pt-4 sm:pb-28 lg:min-h-[34rem] lg:pb-36 lg:pt-10">

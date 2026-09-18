@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { cubicBezier, motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { LogoMark, LOGO_PAPER } from './Logo.jsx'
+import { useNarrowScreen } from './ui.jsx'
 
 /**
  * Exploded assembly. Four parts fly in from off-screen, rotate into register
@@ -110,12 +111,18 @@ function MarkFace() {
 }
 
 /** One quarter of the mark, flying in and seating. */
-function Part({ part, index, progress }) {
+function Part({ part, index, progress, travelScale }) {
   const [start, end] = windowFor(index)
   const opts = { ease: TRAVEL }
 
-  const x = useTransform(progress, [start, end], [part.from.x, 0], opts)
-  const y = useTransform(progress, [start, end], [part.from.y, 0], opts)
+  // The approach offsets above are pixels measured against a desktop stage.
+  // A phone's stage is a third of that width, so unscaled they park each part
+  // most of a screen away: the reader scrolls through the section watching an
+  // empty floor while the pieces sit off-canvas, and only the last moments of
+  // the assembly ever land in view. Scaling the offsets with the stage keeps
+  // the whole flight on screen at every size.
+  const x = useTransform(progress, [start, end], [part.from.x * travelScale, 0], opts)
+  const y = useTransform(progress, [start, end], [part.from.y * travelScale, 0], opts)
   const rotate = useTransform(progress, [start, end], [part.from.rotate, 0], opts)
   const scale = useTransform(progress, [start, end], [0.5, 1], opts)
   // A brief fade at the very start of the window, not a quarter of it: the part
@@ -149,16 +156,25 @@ function DisciplineTag({ part, index, progress }) {
   const y = useTransform(progress, [end - 0.12, end + 0.02], [14, 0])
 
   return (
-    <motion.div style={{ opacity, y }} className={`absolute ${part.at} max-w-[8.5rem]`}>
-      <p className="font-display text-[0.95rem] font-bold text-white sm:text-[1.05rem]">{part.label}</p>
-      <p className="mt-0.5 text-[0.72rem] leading-snug text-ink-400">{part.blurb}</p>
+    /* The four labels sit at the corners of the stage and the mark sits in the
+       middle of it. On a phone the stage is barely wider than the mark, so at
+       the desktop width the labels were printed straight over the artwork. */
+    <motion.div style={{ opacity, y }} className={`absolute ${part.at} max-w-[6rem] sm:max-w-[8.5rem]`}>
+      <p className="font-display text-[0.82rem] font-bold text-white sm:text-[1.05rem]">{part.label}</p>
+      <p className="mt-0.5 text-[0.66rem] leading-snug text-ink-400 sm:text-[0.72rem]">{part.blurb}</p>
     </motion.div>
   )
 }
 
 export default function AssemblyEngine() {
   const ref = useRef(null)
+  const narrow = useNarrowScreen()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+
+  // The stage, the mark inside it and the distance the parts travel all shrink
+  // together below `sm`, so the assembly reads the same on a phone as it does
+  // on a desktop rather than happening mostly off the edges.
+  const travelScale = narrow ? 0.42 : 1
 
   // Scroll arrives in lumps — a wheel notch is one jump, not a sweep — so a
   // transform driven straight off scrollYProgress steps rather than travels.
@@ -241,27 +257,27 @@ export default function AssemblyEngine() {
             <motion.div
               aria-hidden="true"
               style={{ opacity: orbitOpacity }}
-              className="pointer-events-none absolute aspect-square h-[min(25rem,45vh)] animate-spin-slow rounded-full border border-dashed border-brand-500/55"
+              className="pointer-events-none absolute aspect-square h-[min(15rem,26vh)] animate-spin-slow rounded-full border border-dashed border-brand-500/55 sm:h-[min(25rem,45vh)]"
             />
             <motion.div
               aria-hidden="true"
               style={{ opacity: orbitOpacity }}
-              className="pointer-events-none absolute aspect-square h-[min(29rem,52vh)] animate-spin-reverse rounded-full border border-dashed border-steel-500/35"
+              className="pointer-events-none absolute aspect-square h-[min(17.5rem,30vh)] animate-spin-reverse rounded-full border border-dashed border-steel-500/35 sm:h-[min(29rem,52vh)]"
             />
             <motion.div
               aria-hidden="true"
               style={{ scale: waveScale, opacity: waveOpacity }}
-              className="pointer-events-none absolute aspect-square h-[min(22rem,40vh)] rounded-full border-2 border-brand-400"
+              className="pointer-events-none absolute aspect-square h-[min(13rem,23vh)] rounded-full border-2 border-brand-400 sm:h-[min(22rem,40vh)]"
             />
 
             <motion.div
               style={{ rotate: markRotate, scale: markScale }}
-              className="relative h-[min(22rem,40vh)] w-[min(22rem,40vh)]"
+              className="relative h-[min(13rem,23vh)] w-[min(13rem,23vh)] sm:h-[min(22rem,40vh)] sm:w-[min(22rem,40vh)]"
               role="img"
               aria-label="The Darsh Innovations mark, assembling"
             >
               {PARTS.map((part, i) => (
-                <Part key={part.id} part={part} index={i} progress={progress} />
+                <Part key={part.id} part={part} index={i} progress={progress} travelScale={travelScale} />
               ))}
 
               {/* The core: the middle of the same artwork, at the same scale,

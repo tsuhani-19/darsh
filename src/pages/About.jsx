@@ -6,7 +6,7 @@ import PageTransition from '../components/PageTransition.jsx'
 import PageHero from '../components/PageHero.jsx'
 import AuroraMesh from '../components/AuroraMesh.jsx'
 import { AboutArt } from '../components/heroArt.jsx'
-import { MaskedHeading, Reveal, RevealImage, SectionHeading, SlideIn } from '../components/ui.jsx'
+import { MaskedHeading, Reveal, RevealImage, SectionHeading, SlideIn, useSlideDistance } from '../components/ui.jsx'
 import { CTA } from './Home.jsx'
 import { capabilities } from '../data.js'
 import { img } from '../images.js'
@@ -31,6 +31,7 @@ const refusals = [
 ]
 
 export default function About() {
+  const refusalTravel = useSlideDistance(40)
   return (
     <PageTransition>
       <PageHero
@@ -118,7 +119,7 @@ export default function About() {
             {refusals.map((r, i) => (
               <motion.li
                 key={r.t}
-                initial={{ opacity: 0, x: -40 }}
+                initial={{ opacity: 0, x: -refusalTravel }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-70px' }}
                 transition={{ duration: 0.65, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check, Plus } from 'lucide-react'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/controls/tabs.jsx'
+import { useSlideDistance } from './ui.jsx'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -61,6 +62,9 @@ export default function ServiceAccordion({ items, categories }) {
 }
 
 function Panels({ items, active, setActive }) {
+  // these rows only exist below `lg`, so their entrance is the one that most
+  // needs to stay inside the gutter
+  const travel = useSlideDistance(56)
   return (
     <>
       {/* ---------- desktop: horizontal expanding panels ---------- */}
@@ -163,7 +167,7 @@ function Panels({ items, active, setActive }) {
           return (
             <motion.div
               key={s.slug}
-              initial={{ opacity: 0, x: -56 }}
+              initial={{ opacity: 0, x: -travel }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.65, delay: (i % 4) * 0.07, ease: EASE }}
