@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check, Plus } from 'lucide-react'
@@ -65,22 +65,34 @@ function Panels({ items, active, setActive }) {
   // these rows only exist below `lg`, so their entrance is the one that most
   // needs to stay inside the gutter
   const travel = useSlideDistance(56)
+
+  // A quick sweep across the row would otherwise fire setActive on every
+  // panel it crosses, restarting the flex-grow transition mid-flight on each
+  // one. A short hover-intent delay lets the pointer settle before the
+  // (expensive, layout-affecting) transition commits.
+  const hoverTimer = useRef(null)
+  const hover = (i) => {
+    clearTimeout(hoverTimer.current)
+    hoverTimer.current = setTimeout(() => setActive(i), 45)
+  }
+
   return (
     <>
       {/* ---------- desktop: horizontal expanding panels ---------- */}
-      <div className="hidden h-[34rem] gap-2.5 lg:flex">
+      <div className="hidden h-[34rem] gap-2.5 lg:flex [contain:layout_paint]">
         {items.map((s, i) => {
           const on = i === active
           return (
             <motion.button
               key={s.slug}
-              onMouseEnter={() => setActive(i)}
+              onMouseEnter={() => hover(i)}
+              onMouseLeave={() => clearTimeout(hoverTimer.current)}
               onFocus={() => setActive(i)}
               onClick={() => setActive(i)}
               aria-expanded={on}
               aria-label={s.title}
-              style={{ flexGrow: on ? 7 : 1 }}
-              className="group relative h-full min-w-[3.5rem] basis-0 overflow-hidden rounded-2xl text-left transition-[flex-grow] [transition-duration:700ms] ease-out"
+              style={{ flexGrow: on ? 7 : 1, willChange: 'flex-grow' }}
+              className="group relative h-full min-w-[3.5rem] basis-0 overflow-hidden rounded-2xl text-left transition-[flex-grow] [transition-duration:700ms] ease-out [contain:layout_paint]"
             >
               <img
                 src={s.image}
