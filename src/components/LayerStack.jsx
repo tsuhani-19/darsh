@@ -1,5 +1,7 @@
 import { useRef } from 'react'
-import { cubicBezier, motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { cubicBezier, motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
+
+import { useNarrowScreen, useShortScreen } from './ui.jsx'
 
 /**
  * The second scroll-scrubbed assembly on the site, and deliberately not a
@@ -75,11 +77,11 @@ const windowFor = (i) => [0.04 + i * 0.125, 0.04 + i * 0.125 + 0.32]
 // Middle slab sits at z=0, so the deck grows evenly either side of the plate.
 const MID = (LAYERS.length - 1) / 2
 
-function Slab({ layer, index, progress }) {
+function Slab({ layer, index, progress, spread, travel }) {
   const [start, end] = windowFor(index)
   const opts = { ease: TRAVEL }
 
-  const x = useTransform(progress, [start, end], [layer.from, 0], opts)
+  const x = useTransform(progress, [start, end], [Math.sign(layer.from) * travel, 0], opts)
   // Slabs come in from well above the deck and settle onto their own shelf.
   // The gap has to clear the slab's own thickness once foreshortened by the
   // deck's 46° tilt, or five layers read as one thick slab.
@@ -87,7 +89,7 @@ function Slab({ layer, index, progress }) {
   // Centred on zero rather than stacked up from it: at 64px a side, five
   // layers spread ~180px on screen, and growing that spread in one direction
   // walks the top slab straight up into the heading.
-  const z = useTransform(progress, [start, end], [460, (index - MID) * 64], opts)
+  const z = useTransform(progress, [start, end], [460, (index - MID) * spread], opts)
   const rotate = useTransform(progress, [start, end], [layer.from > 0 ? 14 : -14, 0], opts)
   // A brief fade at the very start of the window, not a quarter of it: the slab
   // has to be on screen for its flight, not just for the landing.
@@ -101,7 +103,7 @@ function Slab({ layer, index, progress }) {
   return (
     <motion.div
       style={{ x, z, rotate, opacity }}
-      className="[grid-area:1/1] h-[5.5rem] w-[19rem] place-self-center [transform-style:preserve-3d] sm:h-[6.5rem] sm:w-[24rem]"
+      className="[grid-area:1/1] h-[4.25rem] w-[14.5rem] place-self-center [transform-style:preserve-3d] sm:h-[6.5rem] sm:w-[24rem]"
     >
       {/* The side wall. A flat rectangle reads as a card; one dark copy sitting
           a few pixels behind it reads as a plate with thickness, which is what
@@ -140,7 +142,7 @@ function LayerRow({ layer, index, progress }) {
   const rule = useTransform(progress, [end - 0.1, end], [0, 1])
 
   return (
-    <motion.li style={{ opacity, x }} className="relative py-3.5 pl-5">
+    <motion.li style={{ opacity, x }} className="relative py-2 pl-5 sm:py-3.5 [@media(min-height:501px)_and_(max-height:640px)]:py-1">
       {/* The rule fills rather than fades, so the column reads as a level
           rising through the stack as each slab lands. */}
       <span className="absolute inset-y-0 left-0 w-[2px] rounded-full bg-white/10" />
@@ -154,18 +156,26 @@ function LayerRow({ layer, index, progress }) {
         </span>
         {layer.label}
       </p>
-      <p className="mt-0.5 text-[0.82rem] leading-snug text-ink-400">{layer.detail}</p>
+      {/* On a phone the deck, the heading and five rows have to share one
+          screen, and the details are what does not fit — the labels alone
+          still track the build. */}
+      <p className="mt-0.5 hidden text-[0.82rem] leading-snug text-ink-400 sm:block">{layer.detail}</p>
     </motion.li>
   )
 }
 
 export default function LayerStack() {
   const ref = useRef(null)
+  // A phone gets a smaller deck, so the shelves close up with it and the
+  // slabs fly in from just off the edge rather than from 520px away.
+  const narrow = useNarrowScreen()
+  const spread = narrow ? 44 : 64
+  const travel = narrow ? 300 : 520
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
 
   // Same reason as AssemblyEngine: a wheel notch is one jump, and a transform
   // driven straight off raw scroll progress steps rather than travels.
-  const progress = useSpring(scrollYProgress, {
+  const scrubbed = useSpring(scrollYProgress, {
     // Soft and heavily damped. Stiffer than this and the spring tracks the
     // wheel's steps closely enough to reproduce them; this glides through a
     // notch instead, and still settles without visible overshoot.
@@ -174,6 +184,10 @@ export default function LayerStack() {
     mass: 0.34,
     restDelta: 0.00005,
   })
+  // Too short to pin (a phone on its side): show the deck built, unpinned.
+  const short = useShortScreen()
+  const finished = useMotionValue(1)
+  const progress = short ? finished : scrubbed
 
   const glow = useTransform(progress, [0.6, 0.9], [0, 0.7])
   const hintOpacity = useTransform(progress, [0, 0.12], [1, 0])
@@ -185,8 +199,10 @@ export default function LayerStack() {
   const shadow = useTransform(progress, [0.1, 0.8], [0, 0.55])
 
   return (
-    <section ref={ref} className="relative h-[300vh] bg-ink-900 text-white sm:h-[330vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={ref} className={`relative bg-ink-900 text-white ${short ? '' : 'h-[300vh] sm:h-[330vh]'}`}>
+      {/* svh, not vh: on a phone 100vh is the height with the address bar
+          retracted, so the bottom of the panel sat under the browser chrome. */}
+      <div className={short ? 'relative overflow-hidden py-10' : 'sticky top-0 h-screen overflow-hidden supports-[height:100svh]:h-svh'}>
         <div className="grid-floor pointer-events-none absolute inset-0 opacity-40" />
         <motion.div
           aria-hidden="true"
@@ -194,22 +210,24 @@ export default function LayerStack() {
           className="pointer-events-none absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-600/25 blur-[120px]"
         />
 
-        <div className="container-x relative flex h-full w-full flex-col justify-center pb-8 pt-[4.75rem]">
+        <div className="container-x relative flex h-full w-full flex-col justify-center pb-6 pt-[5.25rem] sm:pb-8 sm:pt-[4.75rem] [@media(min-height:501px)_and_(max-height:640px)]:pb-3 [@media(max-height:500px)]:pt-0">
           <div className="text-center lg:text-left">
             <p className="eyebrow !text-brand-400">Under the hood</p>
-            <h2 className="mt-2.5 font-display text-[1.6rem] font-bold leading-tight tracking-tight text-white sm:text-[2.1rem]">
+            <h2 className="mt-2.5 font-display text-[1.35rem] font-bold leading-tight tracking-tight text-white sm:text-[2.1rem]">
               Every build is five layers deep
             </h2>
           </div>
 
-          <div className="mt-6 grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+          <div className="mt-4 grid items-center gap-4 sm:mt-6 sm:gap-8 [@media(min-height:501px)_and_(max-height:640px)]:mt-1 [@media(min-height:501px)_and_(max-height:640px)]:gap-1 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
             {/* The deck. perspective on the parent, preserve-3d on the plate,
                 so each slab's translateZ actually lifts it off the one below
                 instead of just scaling it. */}
             {/* min-h reserves the room the deck needs once its layers are spread —
                 the slabs all share one grid cell, so the cell itself is only ever
                 one slab tall and cannot reserve it on its own. */}
-            <div className="perspective-1200 flex min-h-[21rem] items-center justify-center lg:min-h-[25rem]">
+            {/* On a short phone (568px) heading, deck and list cannot all fit at
+                full size, so the deck is drawn at three-quarters there. */}
+            <div className="perspective-1200 flex min-h-[14.5rem] items-center justify-center sm:min-h-[21rem] lg:min-h-[25rem] [@media(min-height:501px)_and_(max-height:640px)]:min-h-[10.5rem] [@media(min-height:501px)_and_(max-height:640px)]:scale-75">
               <motion.div
                 className="grid [transform-style:preserve-3d]"
                 style={{ rotateX: 46, rotateZ: deckTurn }}
@@ -228,10 +246,10 @@ export default function LayerStack() {
                     background:
                       'radial-gradient(closest-side, rgba(0,0,0,0.85), rgba(0,0,0,0.45) 55%, rgba(0,0,0,0) 78%)',
                   }}
-                  className="[grid-area:1/1] h-[9rem] w-[26rem] place-self-center [transform:translateZ(-190px)] sm:h-[11rem] sm:w-[32rem]"
+                  className="[grid-area:1/1] h-[7rem] w-[19rem] place-self-center [transform:translateZ(-140px)] sm:[transform:translateZ(-190px)] sm:h-[11rem] sm:w-[32rem]"
                 />
                 {LAYERS.map((layer, i) => (
-                  <Slab key={layer.id} layer={layer} index={i} progress={progress} />
+                  <Slab key={layer.id} layer={layer} index={i} progress={progress} spread={spread} travel={travel} />
                 ))}
               </motion.div>
             </div>
@@ -245,7 +263,7 @@ export default function LayerStack() {
 
           <motion.p
             style={{ opacity: hintOpacity }}
-            className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[0.7rem] uppercase tracking-[0.2em] text-ink-500"
+            className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[0.7rem] uppercase tracking-[0.2em] text-ink-500 [@media(max-height:700px)]:hidden"
           >
             Scroll to build
           </motion.p>

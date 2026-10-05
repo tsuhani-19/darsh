@@ -17,8 +17,8 @@ export default function Footer() {
         className="pointer-events-none absolute -bottom-40 right-0 h-[32rem] w-[32rem] rounded-full bg-brand-600/20 blur-[120px]"
       />
       <div className="container-x relative py-16 sm:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
-          <Reveal>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr] lg:gap-12">
+          <Reveal className="col-span-2 lg:col-span-1">
             {/* The artwork is published on its own near-white ground, so on
                 ink it sits on a plate in exactly that colour — a deliberate
                 badge rather than a white rectangle with a visible seam. */}
@@ -51,11 +51,11 @@ export default function Footer() {
 
           <Reveal delay={0.06}>
             <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white">Pages</h3>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-4 text-sm sm:mt-5 sm:space-y-3">
               {[['Home', '/'], ['About', '/about'], ['Services', '/services'], ['Contact', '/contact']].map(
                 ([label, to]) => (
                   <li key={to}>
-                    <Link to={to} className="inline-flex min-h-[1.5rem] items-center text-ink-400 transition-colors hover:text-white">
+                    <Link to={to} className="inline-flex min-h-[2.75rem] items-center sm:min-h-[1.5rem] text-ink-400 transition-colors hover:text-white">
                       {label}
                     </Link>
                   </li>
@@ -66,10 +66,10 @@ export default function Footer() {
 
           <Reveal delay={0.12}>
             <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white">Services</h3>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-4 text-sm sm:mt-5 sm:space-y-3">
               {services.slice(0, 6).map((s) => (
                 <li key={s.slug}>
-                  <Link to="/services" className="inline-flex min-h-[1.5rem] items-center text-ink-400 transition-colors hover:text-white">
+                  <Link to="/services" className="inline-flex min-h-[2.75rem] items-center sm:min-h-[1.5rem] text-ink-400 transition-colors hover:text-white">
                     {s.title.split(' &')[0]}
                   </Link>
                 </li>
@@ -77,16 +77,16 @@ export default function Footer() {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.18}>
+          <Reveal delay={0.18} className="col-span-2 lg:col-span-1">
             <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white">Get in touch</h3>
-            <ul className="mt-5 space-y-4 text-sm">
+            <ul className="mt-4 space-y-1 text-sm sm:mt-5 sm:space-y-4">
               <li>
-                <a href={site.phoneHref} className="flex min-h-[1.5rem] items-center gap-3 text-ink-400 transition-colors hover:text-white">
+                <a href={site.phoneHref} className="flex min-h-[2.75rem] items-center sm:min-h-[1.5rem] gap-3 text-ink-400 transition-colors hover:text-white">
                   <Phone size={15} className="text-steel-300" /> {site.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${site.email}`} className="flex min-h-[1.5rem] items-center gap-3 break-all text-ink-400 transition-colors hover:text-white">
+                <a href={`mailto:${site.email}`} className="flex min-h-[2.75rem] items-center sm:min-h-[1.5rem] gap-3 break-all text-ink-400 transition-colors hover:text-white">
                   <Mail size={15} className="text-brand-300" /> {site.email}
                 </a>
               </li>
@@ -110,8 +110,8 @@ export default function Footer() {
           edge. Decorative — the real name is already in the lockup above and
           in the copyright line, so this is hidden from assistive tech rather
           than read out a third time. */}
-      <div aria-hidden="true" className="container-x pointer-events-none relative -mt-6 pb-8 sm:-mt-8 sm:pb-10">
-        <Reveal>
+      <div aria-hidden="true" className="container-x pointer-events-none relative -mt-6 pb-24 sm:-mt-8 sm:pb-10">
+        <Reveal margin="0px">
           <FooterWordmark />
         </Reveal>
       </div>

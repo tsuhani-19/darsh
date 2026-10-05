@@ -15,6 +15,11 @@ import heroScene from '../assets/hero-scene.svg'
  *
  * It is anchored right, because the artwork keeps its pale wall on the left
  * and that is where the headline sits.
+ *
+ * Between `lg` and `xl` the hero is close to square, so the right-anchored
+ * crop lands the figure directly behind the paragraph. Centring the crop
+ * there instead moves him out to roughly two-thirds across, clear of the copy
+ * column and the veil.
  */
 export default function HeroScene({ className = '' }) {
   const ref = useRef(null)
@@ -38,8 +43,38 @@ export default function HeroScene({ className = '' }) {
         animate={{ opacity: 1, scale: 1.06 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: driftY, scale: driftScale }}
-        className="h-full w-full object-cover object-right"
+        className="h-full w-full object-cover object-right lg:max-xl:object-center"
       />
+    </div>
+  )
+}
+
+/**
+ * The same artwork for a phone or portrait tablet, where it cannot be a background.
+ *
+ * Behind a 390px column the landscape drawing is cropped to its right edge
+ * and then washed out by the veil the copy needs, so the figure and most of
+ * the red simply never appeared. Below `lg` the scene instead gets its own
+ * full-bleed band in the flow of the hero, cropped square around the man
+ * with the red arch sweeping over him (he stands at ~60% across the drawing,
+ * so 70% horizontal positioning centres him in a square crop). The top and
+ * bottom fade into the page so the band reads as the room the copy is in,
+ * not as a pasted photograph.
+ */
+export function HeroSceneInline({ className = '' }) {
+  return (
+    <div aria-hidden="true" className={`relative -ml-5 w-screen overflow-hidden sm:-ml-8 ${className}`}>
+      <motion.img
+        src={heroScene}
+        alt=""
+        initial={{ opacity: 0, scale: 1.08 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="aspect-square max-h-[30rem] w-full object-cover sm:aspect-[16/10]"
+        style={{ objectPosition: '70% 55%' }}
+      />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
     </div>
   )
 }

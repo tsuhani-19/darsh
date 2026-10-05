@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { cubicBezier, motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { cubicBezier, motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
 import { LogoMark, LOGO_PAPER } from './Logo.jsx'
-import { useNarrowScreen } from './ui.jsx'
+import { useNarrowScreen, useShortScreen } from './ui.jsx'
 
 /**
  * Exploded assembly. Four parts fly in from off-screen, rotate into register
@@ -161,7 +161,7 @@ function DisciplineTag({ part, index, progress }) {
        the desktop width the labels were printed straight over the artwork. */
     <motion.div style={{ opacity, y }} className={`absolute ${part.at} max-w-[6rem] sm:max-w-[8.5rem]`}>
       <p className="font-display text-[0.82rem] font-bold text-white sm:text-[1.05rem]">{part.label}</p>
-      <p className="mt-0.5 text-[0.66rem] leading-snug text-ink-400 sm:text-[0.72rem]">{part.blurb}</p>
+      <p className="mt-0.5 text-[0.75rem] leading-snug text-ink-400">{part.blurb}</p>
     </motion.div>
   )
 }
@@ -180,7 +180,7 @@ export default function AssemblyEngine() {
   // transform driven straight off scrollYProgress steps rather than travels.
   // Running the progress through a spring first gives every part a continuous
   // value to follow and lets them carry a little momentum past a sudden stop.
-  const progress = useSpring(scrollYProgress, {
+  const scrubbed = useSpring(scrollYProgress, {
     // Soft and heavily damped. Stiffer than this and the spring tracks the
     // wheel's steps closely enough to reproduce them; this glides through a
     // notch instead, and still settles without visible overshoot.
@@ -189,6 +189,10 @@ export default function AssemblyEngine() {
     mass: 0.34,
     restDelta: 0.00005,
   })
+  // Too short to pin (a phone on its side): show it assembled, unpinned.
+  const short = useShortScreen()
+  const finished = useMotionValue(1)
+  const progress = short ? finished : scrubbed
 
   // The whole mark counter-rotates as the parts arrive, so the assembly reads
   // as one machine turning into alignment rather than four separate flights.
@@ -224,8 +228,8 @@ export default function AssemblyEngine() {
   const hintOpacity = useTransform(progress, [0, 0.12], [1, 0])
 
   return (
-    <section ref={ref} className="relative h-[300vh] bg-ink-900 text-white sm:h-[340vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={ref} className={`relative bg-ink-900 text-white ${short ? '' : 'h-[300vh] sm:h-[340vh]'}`}>
+      <div className={short ? 'relative overflow-hidden py-10' : 'sticky top-0 h-screen overflow-hidden supports-[height:100svh]:h-svh'}>
         <motion.div style={{ opacity: gridOpacity }} className="grid-floor pointer-events-none absolute inset-0" />
         <motion.div
           aria-hidden="true"
@@ -240,7 +244,7 @@ export default function AssemblyEngine() {
 
         {/* pt clears the fixed header — this panel is pinned to the very top
             of the viewport, so centring alone would slide the heading under it. */}
-        <div className="container-x relative flex h-full w-full flex-col items-center justify-center pb-8 pt-[4.75rem]">
+        <div className="container-x relative flex h-full w-full flex-col items-center justify-center pb-8 pt-[4.75rem] [@media(max-height:500px)]:pt-0">
           <p className="eyebrow !text-brand-400">How the work fits together</p>
           <h2 className="mt-2.5 max-w-xl text-center font-display text-[1.6rem] font-bold leading-tight tracking-tight text-white sm:text-[2.1rem]">
             Four kinds of work, one team
@@ -250,7 +254,10 @@ export default function AssemblyEngine() {
               mark inside is sized off viewport *height*, because this panel is
               pinned and a mark sized on width alone pushes the name and the
               button off the bottom of a short laptop screen. */}
-          <div className="relative mt-5 flex w-full max-w-[34rem] items-center justify-center py-10 sm:mt-6 sm:py-11">
+          {/* A short phone (568px) cannot fit the heading, the stage and the
+              name at their roomy spacing; centred, the overflow pushed the
+              eyebrow up under the header. The gaps close up there instead. */}
+          <div className="relative mt-5 flex w-full max-w-[34rem] items-center justify-center py-10 sm:mt-6 sm:py-11 [@media(max-height:640px)]:mt-3 [@media(max-height:640px)]:py-5">
             {/* Counter-rotating rings. They read as tolerance marks around a
                 machined part rather than as decoration, which is why they are
                 dashed and hairline rather than solid. */}
@@ -302,7 +309,7 @@ export default function AssemblyEngine() {
             ))}
           </div>
 
-          <motion.div style={{ opacity: nameOpacity, y: nameY }} className="mt-6 flex flex-col items-center sm:mt-7">
+          <motion.div style={{ opacity: nameOpacity, y: nameY }} className="mt-6 flex flex-col items-center sm:mt-7 [@media(max-height:640px)]:mt-3">
             <p className="font-display text-[1.6rem] font-extrabold leading-none tracking-[-0.02em] text-white sm:text-[2rem]">
               Darsh <span className="text-brand-500">Innovations</span>
             </p>
@@ -316,7 +323,7 @@ export default function AssemblyEngine() {
 
           <motion.p
             style={{ opacity: hintOpacity }}
-            className="absolute bottom-5 text-[0.7rem] uppercase tracking-[0.2em] text-ink-500"
+            className="absolute bottom-5 text-[0.7rem] uppercase tracking-[0.2em] text-ink-500 [@media(max-height:700px)]:hidden"
           >
             Scroll to assemble
           </motion.p>

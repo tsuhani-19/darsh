@@ -28,8 +28,11 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
+    if (open) document.body.dataset.menuOpen = ''
+    else delete document.body.dataset.menuOpen
     return () => {
       document.body.style.overflow = ''
+      delete document.body.dataset.menuOpen
     }
   }, [open])
 
@@ -37,7 +40,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'border-b border-brand-500/20 bg-white/85 shadow-[0_1px_0_rgba(232,22,31,0.06),0_10px_30px_-24px_rgba(232,22,31,0.5)] backdrop-blur-md' : 'border-b border-transparent'
+          scrolled ? 'border-b border-brand-500/20 bg-white/95 shadow-[0_1px_0_rgba(232,22,31,0.06),0_10px_30px_-24px_rgba(232,22,31,0.5)] backdrop-blur-md' : 'border-b border-transparent'
         }`}
       >
         <div className="container-x flex h-[4.75rem] items-center justify-between gap-6">

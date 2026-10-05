@@ -16,17 +16,74 @@ const NARROW = '(max-width: 639.98px)'
  * otherwise. This is that something.
  */
 export function useNarrowScreen() {
-  const [narrow, setNarrow] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(NARROW).matches,
+  return useMediaQuery(NARROW)
+}
+
+/* A phone on its side: wide enough for the tablet layout, but well under
+   500px tall once the browser chrome is taken off. */
+const SHORT = '(max-height: 500px)'
+
+/**
+ * True on a screen too short for a pinned, scroll-scrubbed panel.
+ *
+ * The two assembly sections pin a full-height stage and play it out as the
+ * page scrolls past. On a landscape phone that stage is ~300px under the
+ * header, which cannot hold a heading, the artwork and its labels at once —
+ * so there they drop the pinning and render finished, as ordinary content.
+ */
+export function useShortScreen() {
+  return useMediaQuery(SHORT)
+}
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
   )
   useEffect(() => {
-    const mq = window.matchMedia(NARROW)
-    const onChange = (e) => setNarrow(e.matches)
-    setNarrow(mq.matches)
+    const mq = window.matchMedia(query)
+    const onChange = (e) => setMatches(e.matches)
+    setMatches(mq.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
-  }, [])
-  return narrow
+  }, [query])
+  return matches
+}
+
+/**
+ * True while a phone reader is scrolling down the page.
+ *
+ * The floating corner buttons sit over the content column, and on a 390px
+ * screen that column runs edge to edge, so whatever they float over is text.
+ * They step aside while the reader is moving down through the page and come
+ * back the moment they scroll up — the gesture that means "I want to go
+ * somewhere" — or stop near the top. Never hides from `sm` up (bar a phone on
+ * its side), where the gutters are wide enough that they sit beside the text
+ * instead.
+ */
+export function useHideOnScrollDown() {
+  // a landscape phone is wider than `sm` but has even less height to give up
+  const phoneWidth = useNarrowScreen()
+  const phoneHeight = useShortScreen()
+  const narrow = phoneWidth || phoneHeight
+  const [hidden, setHidden] = useState(false)
+  useEffect(() => {
+    if (!narrow) {
+      setHidden(false)
+      return
+    }
+    let last = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      const delta = y - last
+      // a few px of slack so momentum jitter does not flicker them
+      if (Math.abs(delta) < 6) return
+      setHidden(delta > 0 && y > 240)
+      last = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [narrow])
+  return hidden
 }
 
 /**
@@ -54,12 +111,15 @@ export function ScrollProgress() {
 }
 
 /* ---------- fade + rise on scroll ---------- */
-export function Reveal({ children, delay = 0, y = 24, className = '' }) {
+// `margin` shrinks the viewport the element has to enter. Anything sitting in
+// the last 70px of the page can never get that far in, so the very foot of the
+// page passes a smaller one or it simply never appears.
+export function Reveal({ children, delay = 0, y = 24, className = '', margin = '-70px' }) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-70px' }}
+      viewport={{ once: true, margin }}
       transition={{ duration: 0.7, delay, ease: EASE }}
       className={className}
     >

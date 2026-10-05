@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Phone, X, MessageCircle, PhoneCall } from 'lucide-react'
 import { site, whatsappLink } from '../siteConfig.js'
 import { LogoMark } from './Logo.jsx'
+import { useHideOnScrollDown } from './ui.jsx'
 
 const SCRIPT = [
   'Hi — thanks for stopping by.',
@@ -75,8 +76,22 @@ export default function AssistantWidget() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  const stepAside = useHideOnScrollDown() && !open
+
+  // On a phone the back-to-top button stacks above this one, right where the
+  // open panel goes, so it gets out of the way while the panel is up.
+  useEffect(() => {
+    if (open) document.body.dataset.assistantOpen = ''
+    else delete document.body.dataset.assistantOpen
+    return () => delete document.body.dataset.assistantOpen
+  }, [open])
+
   return (
-    <div className="fixed bottom-5 right-5 z-[70] flex flex-col items-end gap-3 sm:bottom-7 sm:right-7">
+    <div
+      className={`floating-ui fixed bottom-5 right-5 z-[70] flex flex-col items-end gap-3 transition-[transform,opacity] duration-300 sm:bottom-7 sm:right-7 ${
+        stepAside ? 'pointer-events-none translate-y-6 opacity-0' : ''
+      }`}
+    >
       <AnimatePresence>
         {open && (
           <motion.div
@@ -86,7 +101,7 @@ export default function AssistantWidget() {
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
             role="dialog"
             aria-label={`Talk to ${site.name}`}
-            className="w-[min(21.5rem,calc(100vw-2.5rem))] origin-bottom-right overflow-hidden rounded-2xl border border-line bg-white shadow-deep"
+            className="max-h-[calc(100svh-7rem)] w-[min(21.5rem,calc(100vw-2.5rem))] origin-bottom-right overflow-y-auto overscroll-contain rounded-2xl border border-line bg-white shadow-deep"
           >
             <div className="flex items-center gap-3 border-b border-line px-4 py-3.5">
               <div className="relative">
@@ -95,12 +110,12 @@ export default function AssistantWidget() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="font-display text-[0.9rem] font-bold text-ink-900">Darsh Assistant</p>
-                <p className="text-[0.7rem] text-steel-600">{site.hours}</p>
+                <p className="text-[0.75rem] text-steel-600">{site.hours}</p>
               </div>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="grid h-8 w-8 place-items-center rounded-full text-ink-400 transition-colors hover:bg-mist hover:text-ink-800"
+                className="-mr-1 grid h-10 w-10 place-items-center rounded-full text-ink-400 transition-colors hover:bg-mist hover:text-ink-800"
               >
                 <X size={16} />
               </button>
@@ -138,7 +153,7 @@ export default function AssistantWidget() {
                     </span>
                     <span className="flex-1">
                       <span className="block text-[0.85rem] font-semibold text-ink-900">Talk on a call</span>
-                      <span className="block text-[0.72rem] text-ink-400">{site.phone}</span>
+                      <span className="block text-[0.75rem] text-ink-400">{site.phone}</span>
                     </span>
                     <span className="text-ink-300 transition-transform group-hover:translate-x-0.5">→</span>
                   </motion.a>
@@ -157,12 +172,12 @@ export default function AssistantWidget() {
                     </span>
                     <span className="flex-1">
                       <span className="block text-[0.85rem] font-semibold text-ink-900">Chat on WhatsApp</span>
-                      <span className="block text-[0.72rem] text-ink-400">Often the quickest way to reach us</span>
+                      <span className="block text-[0.75rem] text-ink-400">Often the quickest way to reach us</span>
                     </span>
                     <span className="text-ink-300 transition-transform group-hover:translate-x-0.5">→</span>
                   </motion.a>
 
-                  <p className="pt-1 text-center text-[0.68rem] text-ink-400">{site.hours}</p>
+                  <p className="pt-1 text-center text-[0.75rem] text-ink-400">{site.hours}</p>
                 </motion.div>
               )}
             </AnimatePresence>

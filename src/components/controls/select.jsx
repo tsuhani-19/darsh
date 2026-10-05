@@ -13,7 +13,7 @@ const SelectTrigger = React.forwardRef(({ className, children, ...props }, ref) 
     ref={ref}
     className={cn(
       'flex h-12 w-full items-center justify-between gap-2 rounded-xl border border-line bg-white px-4',
-      'text-left text-[0.95rem] text-ink-900',
+      'text-left text-base text-ink-900',
       'transition-[border-color,box-shadow] duration-200',
       'data-[placeholder]:text-ink-300',
       'focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-100',

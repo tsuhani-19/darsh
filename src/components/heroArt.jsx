@@ -151,7 +151,7 @@ export function ContactArt() {
           <span className="relative inline-flex h-2 w-2 rounded-full bg-steel-400" />
         </span>
         <p className="text-[0.78rem] font-medium text-white">{site.name}</p>
-        <p className="ml-auto text-[0.66rem] text-ink-400">online</p>
+        <p className="ml-auto text-[0.75rem] text-ink-400">online</p>
       </div>
 
       <div className="space-y-2 bg-ink-900 px-3.5 py-4">
@@ -182,7 +182,7 @@ export function ContactArt() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.9 }}
-          className="flex items-center justify-center gap-2 pt-2 text-[0.68rem] text-ink-400"
+          className="flex items-center justify-center gap-2 pt-2 text-[0.75rem] text-ink-400"
         >
           <Check size={12} className="text-steel-400" />
           This is what the form below sends

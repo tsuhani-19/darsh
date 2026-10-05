@@ -2,6 +2,8 @@ import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'fra
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { useHideOnScrollDown } from './ui.jsx'
+
 /* A 36px circle; the ring is drawn on its own radius so the stroke sits
    inside the button rather than straddling its edge. */
 const R = 16
@@ -13,12 +15,16 @@ const C = 2 * Math.PI * R
  * Sits bottom-left so it never fights the assistant widget in the opposite
  * corner, and only appears once there is enough page behind you for it to be
  * worth offering.
+ *
+ * On a phone it stacks above the assistant button instead: one button in each
+ * bottom corner meant both ends of every line of text were covered at once.
  */
 export default function BackToTop() {
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 })
   const dashoffset = useTransform(progress, (p) => C * (1 - p))
   const [shown, setShown] = useState(false)
+  const stepAside = useHideOnScrollDown()
 
   useEffect(() => {
     const onScroll = () => setShown(window.scrollY > window.innerHeight * 0.9)
@@ -28,6 +34,11 @@ export default function BackToTop() {
   }, [])
 
   return (
+    <div
+      className={`floating-ui back-to-top fixed bottom-[5.5rem] right-[1.625rem] z-[70] transition-[transform,opacity] duration-300 sm:bottom-7 sm:left-7 sm:right-auto ${
+        stepAside ? 'pointer-events-none translate-y-4 opacity-0' : ''
+      }`}
+    >
     <AnimatePresence>
       {shown && (
         <motion.button
@@ -41,7 +52,7 @@ export default function BackToTop() {
           exit={{ opacity: 0, y: 14, scale: 0.85 }}
           whileHover={{ y: -3 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="group fixed bottom-5 left-5 z-[70] grid h-11 w-11 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-soft backdrop-blur transition-colors hover:border-brand-300 hover:text-brand-600 sm:bottom-7 sm:left-7"
+          className="group relative grid h-11 w-11 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-soft backdrop-blur transition-colors hover:border-brand-300 hover:text-brand-600"
         >
           <svg
             aria-hidden="true"
@@ -65,5 +76,6 @@ export default function BackToTop() {
         </motion.button>
       )}
     </AnimatePresence>
+    </div>
   )
 }

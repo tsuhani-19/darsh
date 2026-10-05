@@ -17,7 +17,7 @@ import ParallaxBand from '../components/ParallaxBand.jsx'
 import AuroraMesh from '../components/AuroraMesh.jsx'
 import AssemblyEngine from '../components/AssemblyEngine.jsx'
 import SpectrumRule from '../components/SpectrumRule.jsx'
-import HeroScene from '../components/HeroScene.jsx'
+import HeroScene, { HeroSceneInline } from '../components/HeroScene.jsx'
 import Magnetic from '../components/fx/Magnetic.jsx'
 import { MaskedHeading, Reveal, RevealImage, SectionHeading, SlideIn } from '../components/ui.jsx'
 import { services, process, commitments, capabilities } from '../data.js'
@@ -58,16 +58,15 @@ function Hero() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-white pt-24 sm:pt-28">
       {/* ---------- the scene the whole hero stands inside ---------- */}
-      <HeroScene />
+      <HeroScene className="hidden lg:block" />
       {/* The copy sits on the pale left third of the scene, and this veil is
           what keeps it legible where the corridor crops inwards.
 
-          On a phone the copy is not a left third — it is the whole column, so
-          it runs straight across the red. The veil therefore holds white much
-          further over below `sm` and never falls to fully transparent, which
-          is what the paragraph and the tick list were being lost in. From
-          `sm` up the original three stops are restored unchanged. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white from-60% via-white/90 via-82% to-white/70 to-100% sm:from-30% sm:via-white/80 sm:via-46% sm:to-transparent sm:to-64% lg:from-24% lg:via-white/70 lg:via-40% lg:to-56%" />
+          Below `lg` there is no background scene to veil: on a phone or a
+          portrait tablet the copy spans most of the width, so it would run
+          straight across the red and the veil would bury the figure. The
+          artwork gets its own band in the flow instead (HeroSceneInline). */}
+      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-white from-24% via-white/70 via-40% to-transparent to-56% lg:block" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
 
       <div className="container-x relative pb-20 pt-4 sm:pb-28 lg:min-h-[34rem] lg:pb-36 lg:pt-10">
@@ -128,11 +127,13 @@ function Hero() {
             </Magnetic>
           </motion.div>
 
+          <HeroSceneInline className="mt-8 lg:hidden" />
+
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-line pt-7 text-[0.83rem] text-ink-500"
+            className="mt-2 flex lg:mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-line pt-7 text-[0.83rem] text-ink-500"
           >
             {['Fixed quote before we start', 'Test link from week one', 'You own everything'].map((t, i) => (
               <motion.li

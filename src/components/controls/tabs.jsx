@@ -26,7 +26,7 @@ const TabsTrigger = React.forwardRef(({ className, children, layoutGroup = 'tabs
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'group relative rounded-full px-4 py-2 text-[0.85rem] font-medium text-ink-500 outline-none',
+      'group relative min-h-[2.5rem] rounded-full px-4 py-2 text-[0.85rem] font-medium text-ink-500 outline-none',
       'transition-colors duration-200 hover:text-ink-900',
       'focus-visible:ring-4 focus-visible:ring-brand-100',
       'data-[state=active]:text-white',
