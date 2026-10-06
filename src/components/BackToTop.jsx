@@ -35,7 +35,7 @@ export default function BackToTop() {
 
   return (
     <div
-      className={`floating-ui back-to-top fixed bottom-[5.5rem] right-[1.625rem] z-[70] transition-[transform,opacity] duration-300 sm:bottom-7 sm:left-7 sm:right-auto ${
+      className={`floating-ui back-to-top fixed hidden sm:block bottom-[5.5rem] right-[1.625rem] z-[70] transition-[transform,opacity] duration-300 sm:bottom-7 sm:left-7 sm:right-auto ${
         stepAside ? 'pointer-events-none translate-y-4 opacity-0' : ''
       }`}
     >

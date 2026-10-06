@@ -76,23 +76,18 @@ export default function AssistantWidget() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // On a phone the hero's buttons sit in the bottom-right corner of the first
-  // screen, exactly where this button lands, so it waits until they have
-  // scrolled away. Wider screens have room for both.
-  const [pastHero, setPastHero] = useState(true)
+  // On a phone the call button stays on screen the whole time, at every point
+  // of the page; it only steps aside on scroll on wider screens.
+  const [isPhone, setIsPhone] = useState(false)
   useEffect(() => {
     const phone = window.matchMedia('(max-width: 639.98px)')
-    const check = () => setPastHero(!phone.matches || window.scrollY > window.innerHeight * 0.55)
+    const check = () => setIsPhone(phone.matches)
     check()
-    window.addEventListener('scroll', check, { passive: true })
     phone.addEventListener('change', check)
-    return () => {
-      window.removeEventListener('scroll', check)
-      phone.removeEventListener('change', check)
-    }
+    return () => phone.removeEventListener('change', check)
   }, [])
 
-  const stepAside = (useHideOnScrollDown() || !pastHero) && !open
+  const stepAside = useHideOnScrollDown() && !open && !isPhone
 
   // On a phone the back-to-top button stacks above this one, right where the
   // open panel goes, so it gets out of the way while the panel is up.
