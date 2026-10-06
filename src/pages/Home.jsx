@@ -147,13 +147,13 @@ function Hero() {
             </Magnetic>
           </motion.div>
 
-          <HeroSceneInline className="mt-8 lg:hidden" />
+          <HeroSceneInline className="mt-8 hidden sm:block lg:hidden" />
 
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-2 flex flex-col gap-2.5 border-t border-line pt-6 text-[0.83rem] text-ink-500 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:pt-7 lg:mt-9"
+            className="mt-8 flex flex-col gap-2.5 border-t border-line pt-6 text-[0.83rem] text-ink-500 sm:mt-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:pt-7 lg:mt-9"
           >
             {['Fixed quote before we start', 'Test link from week one', 'You own everything'].map((t, i) => (
               <motion.li
