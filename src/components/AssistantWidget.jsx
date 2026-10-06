@@ -76,7 +76,23 @@ export default function AssistantWidget() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  const stepAside = useHideOnScrollDown() && !open
+  // On a phone the hero's buttons sit in the bottom-right corner of the first
+  // screen, exactly where this button lands, so it waits until they have
+  // scrolled away. Wider screens have room for both.
+  const [pastHero, setPastHero] = useState(true)
+  useEffect(() => {
+    const phone = window.matchMedia('(max-width: 639.98px)')
+    const check = () => setPastHero(!phone.matches || window.scrollY > window.innerHeight * 0.55)
+    check()
+    window.addEventListener('scroll', check, { passive: true })
+    phone.addEventListener('change', check)
+    return () => {
+      window.removeEventListener('scroll', check)
+      phone.removeEventListener('change', check)
+    }
+  }, [])
+
+  const stepAside = (useHideOnScrollDown() || !pastHero) && !open
 
   // On a phone the back-to-top button stacks above this one, right where the
   // open panel goes, so it gets out of the way while the panel is up.
@@ -206,7 +222,7 @@ export default function AssistantWidget() {
           aria-expanded={open}
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.94 }}
-          className="relative grid h-14 w-14 place-items-center rounded-full bg-brand-600 text-white shadow-deep"
+          className="relative grid h-[3.25rem] w-[3.25rem] place-items-center rounded-full bg-brand-600 text-white shadow-deep sm:h-14 sm:w-14"
         >
           {!open && <span className="absolute inset-0 animate-ring rounded-full bg-brand-500" />}
           <AnimatePresence mode="wait" initial={false}>

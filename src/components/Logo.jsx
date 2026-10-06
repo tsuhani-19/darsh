@@ -61,23 +61,40 @@ export function LogoLockup({ className = 'h-10' }) {
   )
 }
 
+// The lockup's own ink: mark and wordmark run x 112-1505, y 200-716. The file
+// carries a wide margin around that, which at navbar size shrank the logo to
+// a small mark floating in an empty plate. This window trims it to the ink.
+const LOCKUP = { x: 96, y: 184, w: 1426, h: 548 }
+
 /**
  * The lockup as the home link — the navbar and anywhere else it clicks.
  *
- * On its own paper, rounded. Over white the plate is invisible; over the
- * header's frosted panel, when that panel is sitting on a dark section, it is
- * what keeps the artwork's ground from reading as a hard white box cut into
- * the bar.
+ * Shown through a window trimmed to the ink. The artwork's ground is a flat
+ * #fdfdfd, which against the white header read as a grey box; a 1% lift takes
+ * it to pure white without visibly touching the mark. (A blend mode cannot do
+ * this: the fixed header is its own stacking context with nothing behind the
+ * logo to blend with.)
  */
 export default function Logo({ className = 'h-10' }) {
   return (
-    <Link
-      to="/"
-      aria-label={`${site.name} — home`}
-      className="inline-flex items-center rounded-lg px-2 py-1"
-      style={{ backgroundColor: LOGO_PAPER }}
-    >
-      <LogoLockup className={className} />
+    <Link to="/" aria-label={`${site.name} — home`} className="inline-flex shrink-0 items-center rounded-md">
+      <span
+        className={`relative block overflow-hidden ${className}`}
+        style={{ aspectRatio: `${LOCKUP.w} / ${LOCKUP.h}` }}
+      >
+        <img
+          src={site.logo}
+          alt={site.name}
+          draggable={false}
+          style={{
+            width: `${(ART.w / LOCKUP.w) * 100}%`,
+            left: `${(-LOCKUP.x / LOCKUP.w) * 100}%`,
+            top: `${(-LOCKUP.y / LOCKUP.h) * 100}%`,
+            filter: 'brightness(1.01)',
+          }}
+          className="absolute max-w-none select-none"
+        />
+      </span>
     </Link>
   )
 }

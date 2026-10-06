@@ -84,25 +84,45 @@ function Hero() {
             Digital studio · Mumbai
           </motion.p>
 
-          <MaskedHeading
-            as="h1"
-            immediate
-            lines={['Websites, apps and', 'campaigns, built by']}
-            className="font-display text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] text-ink-900 sm:text-[3.4rem] lg:text-[3.9rem]"
-          />
-          <MaskedHeading
-            as="p"
-            immediate
-            delay={0.16}
-            lines={['one team.']}
-            className="text-spectrum font-display text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] sm:text-[3.4rem] lg:text-[3.9rem]"
-          />
+          {/* A phone cannot hold "Websites, apps and" on one line, so the
+              desktop breaks wrapped inside their own masks and the headline
+              fell apart into five ragged lines. Phones get their own breaks,
+              sized to the viewport so each line fits whole. */}
+          <h1 className="font-display font-bold tracking-[-0.03em] text-ink-900">
+            <MaskedHeading
+              as="span"
+              immediate
+              lines={[
+                'Websites, apps',
+                'and campaigns,',
+                <>
+                  built by <span className="text-spectrum">one team.</span>
+                </>,
+              ]}
+              className="block text-[clamp(1.75rem,8.4vw,2.4rem)] leading-[1.08] sm:hidden"
+            />
+            <span className="hidden sm:block">
+              <MaskedHeading
+                as="span"
+                immediate
+                lines={['Websites, apps and', 'campaigns, built by']}
+                className="block text-[3.4rem] leading-[1.05] lg:text-[3.9rem]"
+              />
+              <MaskedHeading
+                as="span"
+                immediate
+                delay={0.16}
+                lines={['one team.']}
+                className="text-spectrum block text-[3.4rem] leading-[1.05] lg:text-[3.9rem]"
+              />
+            </span>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35 }}
-            className="lede mt-6 max-w-xl"
+            className="lede mt-5 max-w-xl !text-[0.98rem] sm:mt-6 sm:!text-[1.05rem]"
           >
             We design, build and market digital products. The website, the app, the ads
             and the video come from the same people, so you are not the one passing
@@ -113,15 +133,15 @@ function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            className="mt-7 grid grid-cols-1 gap-3 sm:mt-8 sm:flex sm:flex-wrap sm:items-center"
           >
             <Magnetic>
-              <Link to="/contact" className="btn-spectrum">
+              <Link to="/contact" className="btn-spectrum w-full !py-3.5 sm:w-auto sm:!py-3">
                 Start a project <ArrowRight size={16} />
               </Link>
             </Magnetic>
             <Magnetic strength={0.22}>
-              <Link to="/services" className="btn-outline">
+              <Link to="/services" className="btn-outline w-full !py-3.5 sm:w-auto sm:!py-3">
                 See what we do
               </Link>
             </Magnetic>
@@ -133,7 +153,7 @@ function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-2 flex lg:mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-line pt-7 text-[0.83rem] text-ink-500"
+            className="mt-2 flex flex-col gap-2.5 border-t border-line pt-6 text-[0.83rem] text-ink-500 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:pt-7 lg:mt-9"
           >
             {['Fixed quote before we start', 'Test link from week one', 'You own everything'].map((t, i) => (
               <motion.li
