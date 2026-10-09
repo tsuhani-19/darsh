@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check, Plus } from 'lucide-react'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/controls/tabs.jsx'
 import { useSlideDistance } from './ui.jsx'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -23,42 +22,14 @@ const veil = {
  * downward. Collapsed panels carry a rotated title so the whole set stays
  * readable while closed.
  *
- * The category filter is a real Radix tab list, so arrow keys move between
- * categories and the relationship between a category and its panels is
- * announced. Radix mounts only the active tab's content, so rendering one
- * TabsContent per category costs no more than the old single list did.
+ * Every service is shown at once. There was a category tab list above this;
+ * with seven services across four categories it was filtering a list short
+ * enough to read whole.
  */
-export default function ServiceAccordion({ items, categories }) {
-  const [filter, setFilter] = useState('All')
+export default function ServiceAccordion({ items }) {
   const [active, setActive] = useState(0)
 
-  const itemsFor = (c) => (c === 'All' ? items : items.filter((s) => s.category === c))
-
-  const pick = (f) => {
-    setFilter(f)
-    setActive(0)
-  }
-
-  return (
-    <Tabs value={filter} onValueChange={pick}>
-      <TabsList className="mb-8">
-        {categories.map((c) => (
-          <TabsTrigger key={c} value={c} layoutGroup="svc-pill">
-            {c}
-            <span className="text-[0.72rem] text-ink-300 transition-colors group-data-[state=active]:text-white/50">
-              {itemsFor(c).length}
-            </span>
-          </TabsTrigger>
-        ))}
-      </TabsList>
-
-      {categories.map((c) => (
-        <TabsContent key={c} value={c}>
-          <Panels items={itemsFor(c)} active={active} setActive={setActive} />
-        </TabsContent>
-      ))}
-    </Tabs>
-  )
+  return <Panels items={items} active={active} setActive={setActive} />
 }
 
 function Panels({ items, active, setActive }) {

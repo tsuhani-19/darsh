@@ -11,7 +11,7 @@ import ServiceAccordion from '../components/ServiceAccordion.jsx'
 import ProcessTimeline from '../components/ProcessTimeline.jsx'
 import LayerStack from '../components/LayerStack.jsx'
 import { CTA } from './Home.jsx'
-import { services, serviceCategories, process, faqs } from '../data.js'
+import { services, process, faqs } from '../data.js'
 import { whatsappLink } from '../siteConfig.js'
 
 const stacks = [
@@ -44,7 +44,7 @@ export default function Services() {
 
       <section className="snap-sec py-16 sm:py-20">
         <div className="container-x">
-          <ServiceAccordion items={services} categories={serviceCategories} />
+          <ServiceAccordion items={services} />
         </div>
       </section>
 

@@ -174,6 +174,7 @@ function ContactCard({ icon: Icon, tone, title, value, note, href, external }) {
 function BriefBuilder() {
   const [form, setForm] = useState({
     name: '',
+    phone: '',
     company: '',
     service: services[0].title,
     details: '',
@@ -181,9 +182,37 @@ function BriefBuilder() {
   const [touched, setTouched] = useState(false)
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
+  // Typed characters that can never be part of an answer are dropped as they
+  // are typed, rather than accepted and then complained about on submit.
+  const setFiltered = (k, clean) => (e) => setForm((f) => ({ ...f, [k]: clean(e.target.value) }))
   // Radix Select hands back the value itself rather than a change event
   const pick = (k) => (value) => setForm((f) => ({ ...f, [k]: value }))
-  const valid = form.name.trim().length > 1 && form.details.trim().length > 4
+
+  const name = form.name.trim()
+  const details = form.details.trim()
+  const errors = {
+    // \p{L} rather than A-Z: names here are as likely to be written in
+    // Devanagari as in Latin, and plenty of Latin ones carry accents. \p{M}
+    // matters just as much — without it the matras are stripped out of a name
+    // like अनन्या as it is typed.
+    name: !name
+      ? 'Please tell us your name.'
+      : name.length < 2
+        ? 'That looks too short to be a name.'
+        : !/^\p{L}[\p{L}\p{M}\s'.-]*$/u.test(name)
+          ? 'Letters, spaces, apostrophes and hyphens only.'
+          : null,
+    // optional, but a half-typed number is worse than none
+    phone: !form.phone || (form.phone.length >= 10 && form.phone.length <= 15)
+      ? null
+      : 'A phone number is 10 to 15 digits.',
+    details: details.length < 10
+      ? 'A line or two about the project, please.'
+      : !/\p{L}/u.test(details)
+        ? 'Please describe the project in words.'
+        : null,
+  }
+  const valid = !errors.name && !errors.phone && !errors.details
 
   const submit = (e) => {
     e.preventDefault()
@@ -193,6 +222,7 @@ function BriefBuilder() {
       `Hello ${site.name},`,
       '',
       `Name: ${form.name}`,
+      form.phone ? `Phone: ${form.phone}` : null,
       form.company ? `Company: ${form.company}` : null,
       `Looking for: ${form.service}`,
       '',
@@ -213,22 +243,36 @@ function BriefBuilder() {
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
-        <Field id="brief-name" label="Your name" required>
+        <Field id="brief-name" label="Your name" required error={touched && errors.name}>
           <Input
             id="brief-name"
             value={form.name}
-            onChange={set('name')}
+            onChange={setFiltered('name', (v) => v.replace(/[^\p{L}\p{M}\s'.-]/gu, ''))}
             placeholder="Ananya Rao"
-            aria-invalid={touched && form.name.trim().length < 2}
-            className={touched && form.name.trim().length < 2 ? 'border-crimson-400 focus-visible:ring-crimson-100' : ''}
+            autoComplete="name"
+            aria-invalid={Boolean(touched && errors.name)}
+            className={touched && errors.name ? 'border-crimson-400 focus-visible:ring-crimson-100' : ''}
           />
         </Field>
-        <Field id="brief-company" label="Company">
-          <Input id="brief-company" value={form.company} onChange={set('company')} placeholder="Lumen Health" />
+        <Field id="brief-phone" label="Phone" error={touched && errors.phone}>
+          <Input
+            id="brief-phone"
+            value={form.phone}
+            onChange={setFiltered('phone', (v) => v.replace(/\D/g, '').slice(0, 15))}
+            placeholder="9876543210"
+            type="tel"
+            inputMode="numeric"
+            autoComplete="tel"
+            aria-invalid={Boolean(touched && errors.phone)}
+            className={touched && errors.phone ? 'border-crimson-400 focus-visible:ring-crimson-100' : ''}
+          />
         </Field>
 
-        {/* full width: it used to share the row with the budget range */}
-        <div className="sm:col-span-2">
+        <Field id="brief-company" label="Company">
+          <Input id="brief-company" value={form.company} onChange={set('company')} placeholder="Lumen Health" autoComplete="organization" />
+        </Field>
+
+        <div>
           <Field id="brief-service" label="What do you need">
             <Select value={form.service} onValueChange={pick('service')}>
               <SelectTrigger id="brief-service" className="group">
@@ -248,25 +292,19 @@ function BriefBuilder() {
         </div>
 
         <div className="sm:col-span-2">
-          <Field id="brief-details" label="About the project" required>
+          <Field id="brief-details" label="About the project" required error={touched && errors.details}>
             <Textarea
               id="brief-details"
               value={form.details}
               onChange={set('details')}
               rows={5}
               placeholder="What are you building, who is it for, and when would you like it live?"
-              aria-invalid={touched && form.details.trim().length < 5}
-              className={touched && form.details.trim().length < 5 ? 'border-crimson-400 focus-visible:ring-crimson-100' : ''}
+              aria-invalid={Boolean(touched && errors.details)}
+              className={touched && errors.details ? 'border-crimson-400 focus-visible:ring-crimson-100' : ''}
             />
           </Field>
         </div>
       </div>
-
-      {touched && !valid && (
-        <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-4 text-[0.82rem] text-crimson-500">
-          Please add your name and a line or two about the project.
-        </motion.p>
-      )}
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <button type="submit" className="btn-spectrum">
@@ -280,7 +318,7 @@ function BriefBuilder() {
   )
 }
 
-function Field({ id, label, required, children }) {
+function Field({ id, label, required, error, children }) {
   return (
     <div className="block">
       <Label htmlFor={id} className="mb-2 block normal-case tracking-[0.02em] text-ink-600">
@@ -288,6 +326,17 @@ function Field({ id, label, required, children }) {
         {required && <span className="text-crimson-500"> *</span>}
       </Label>
       {children}
+      {/* said under the field it belongs to, so there is no hunting for which
+          answer the complaint is about */}
+      {error && (
+        <motion.p
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-1.5 text-[0.78rem] text-crimson-500"
+        >
+          {error}
+        </motion.p>
+      )}
     </div>
   )
 }
