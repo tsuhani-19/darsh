@@ -6,7 +6,6 @@ import { ArrowRight, Check } from 'lucide-react'
 import { img } from '../images.js'
 import PageTransition from '../components/PageTransition.jsx'
 import ServiceShowcase from '../components/ServiceShowcase.jsx'
-import Estimator from '../components/Estimator.jsx'
 import ScrollHighlight from '../components/ScrollHighlight.jsx'
 import StackCards from '../components/StackCards.jsx'
 import BeforeAfter from '../components/BeforeAfter.jsx'
@@ -34,7 +33,6 @@ export default function Home() {
       <Approach />
       <ServicesSection />
       <CompareSection />
-      <EstimatorSection />
       <ProcessSection />
       <CommitmentSection />
       <BandSection />
@@ -362,7 +360,7 @@ function ServicesSection() {
     <section className="snap-sec border-t border-line bg-mist py-20 sm:py-28">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="What we do" lines={['Nine services,', 'one team.']} />
+          <SectionHeading eyebrow="What we do" lines={['Seven services,', 'one team.']} />
           <Reveal delay={0.15}>
             <Link to="/services" className="btn-outline">
               All services <ArrowRight size={15} />
@@ -372,26 +370,6 @@ function ServicesSection() {
         <div className="mt-12">
           <ServiceShowcase items={services} />
         </div>
-      </div>
-    </section>
-  )
-}
-
-/* =============================== ESTIMATOR =============================== */
-function EstimatorSection() {
-  return (
-    <section className="snap-sec py-20 sm:py-28">
-      <div className="container-x">
-        <SectionHeading
-          align="center"
-          eyebrow="Before you call"
-          lines={['See a rough number', 'first.']}
-          subtitle="Tick the parts of the job you need and you will get an approximate timeline and starting budget. It is a starting point for the conversation, not a quote."
-          className="mb-12"
-        />
-        <Reveal>
-          <Estimator />
-        </Reveal>
       </div>
     </section>
   )

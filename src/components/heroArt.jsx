@@ -56,7 +56,7 @@ export function AboutArt() {
    Two earlier versions were rejected: a static mosaic of nine tinted tiles,
    then those tiles scattering and snapping into formation, which read as a
    loading animation rather than a design. This is deliberately quiet — the
-   nine disciplines are already listed, in full, a screen below.
+   seven disciplines are already listed, in full, a screen below.
 --------------------------------------------------------------------------- */
 export function ServicesArt() {
   const px = useMotionValue(0)
@@ -109,12 +109,12 @@ export function ServicesArt() {
           className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6"
         >
           <p className="font-display text-[0.95rem] font-semibold leading-tight text-white">
-            Nine disciplines,
+            Seven disciplines,
             <br />
             one team.
           </p>
           <p className="font-display text-[2.6rem] font-bold leading-none tabular-nums text-white/85">
-            09
+            07
           </p>
         </motion.div>
       </motion.div>

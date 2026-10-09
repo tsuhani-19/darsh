@@ -16,6 +16,11 @@ import contactCall from './assets/contact-call.png'
 import discovery from './assets/discovery.png'
 import marketingPoster from './assets/marketing-poster.png'
 import mobilePoster from './assets/mobile-poster.png'
+import panelBranding from './assets/panel-branding.png'
+import panelMobile from './assets/panel-mobile.png'
+import panelSeo from './assets/panel-seo.png'
+import panelVideo from './assets/panel-video.png'
+import panelWebsites from './assets/panel-websites.png'
 import posterBeyondOrdinary from './assets/poster-beyond-ordinary.png'
 import seoPoster from './assets/seo-poster.png'
 import stepBuild from './assets/step-build.png'
@@ -35,6 +40,15 @@ export const img = {
   svcBranding: brandingPoster,
   svcSeo: seoPoster,
   svcAi: aiAutomation,
+
+  /* The accordion panels on /services, where a service may show different art
+     from the one the home page's bento grid gives it. Only the services that
+     have a second picture appear here. */
+  panelWebsites,
+  panelMobile,
+  panelVideo,
+  panelBranding,
+  panelSeo,
 
   /* ---------- process ---------- */
   stepDiscovery: discovery,

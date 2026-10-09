@@ -24,6 +24,7 @@ export const services = [
     blurb: 'Marketing sites, portfolios and landing pages that load fast and read clearly.',
     points: ['Custom design, no templates', 'React or Next.js builds', 'A CMS your team can run', 'Speed and accessibility tuned'],
     image: img.svcWebsites,
+    panelImage: img.panelWebsites,
     tone: 'brand',
   },
   {
@@ -35,6 +36,7 @@ export const services = [
     blurb: 'iOS and Android apps that feel native and keep working on a weak connection.',
     points: ['React Native and Flutter', 'Offline-first data', 'Push and deep links', 'Store submission handled'],
     image: img.svcMobile,
+    panelImage: img.panelMobile,
     tone: 'steel',
   },
   {
@@ -57,6 +59,7 @@ export const services = [
     blurb: 'Reels, ads, explainers and brand films, edited and colour graded in house.',
     points: ['Short-form for social', 'Motion graphics', 'Colour and sound', 'Subtitles and versioning'],
     image: img.svcVideo,
+    panelImage: img.panelVideo,
     tone: 'gold',
   },
   {
@@ -68,6 +71,7 @@ export const services = [
     blurb: 'Identity and product design, so everything built afterwards looks like one thing.',
     points: ['Logo and identity systems', 'Design systems in Figma', 'Prototypes for testing', 'Usability reviews'],
     image: img.svcBranding,
+    panelImage: img.panelBranding,
     tone: 'brand',
   },
   {
@@ -79,6 +83,7 @@ export const services = [
     blurb: 'Technical fixes, plus content written around what people actually search for.',
     points: ['Technical audits', 'Keyword and topic mapping', 'Local SEO', 'Content production'],
     image: img.svcSeo,
+    panelImage: img.panelSeo,
     tone: 'steel',
   },
   {

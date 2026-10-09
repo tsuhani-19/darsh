@@ -28,7 +28,7 @@ export default function Services() {
         eyebrow="Services"
         lines={['Build it, launch it,', 'then grow it.']}
         subtitle="Take a single service or hand over the whole project. Either way there is one team, one schedule, and one person you can ask about any part of it."
-        chips={['Nine services', 'One point of contact', 'Fixed quotes']}
+        chips={['Seven services', 'One point of contact', 'Fixed quotes']}
         actions={
           <a
             href={whatsappLink}

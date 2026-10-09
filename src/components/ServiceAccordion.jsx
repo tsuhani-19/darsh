@@ -100,7 +100,7 @@ function Panels({ items, active, setActive }) {
                   poster. Anchored to the top the headline survives and the crop
                   comes off the bottom, which the veil and the copy cover anyway. */}
               <img
-                src={s.image}
+                src={s.panelImage ?? s.image}
                 alt=""
                 loading="lazy"
                 className={`absolute inset-0 h-full w-full object-cover object-top transition-all [transition-duration:900ms] ease-out ${
@@ -195,7 +195,7 @@ function Panels({ items, active, setActive }) {
                 aria-expanded={on}
                 className="relative block h-24 w-full text-left"
               >
-                <img src={s.image} alt="" loading="lazy" className="graded absolute inset-0 h-full w-full object-cover object-top" />
+                <img src={s.panelImage ?? s.image} alt="" loading="lazy" className="graded absolute inset-0 h-full w-full object-cover object-top" />
                 <div className={`absolute inset-0 bg-gradient-to-r to-transparent ${veil[s.tone]}`} />
                 <div className="relative flex h-full items-center gap-4 px-5">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/15 text-white backdrop-blur-sm">
