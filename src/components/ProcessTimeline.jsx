@@ -49,12 +49,28 @@ export default function ProcessTimeline({ items }) {
 
             {/* card */}
             <div className="group min-w-0 flex-1 lg:mt-7">
-              <div className="overflow-hidden rounded-xl bg-ink-100">
+              {/* `fit: 'contain'` marks artwork with its own headline in it: a
+                  16:9 poster in a 16:10 frame was losing the first letter off
+                  the left edge, and the hover zoom took more. Contained, it
+                  shows whole, with a blurred copy filling the rest. */}
+              <div className="relative overflow-hidden rounded-xl bg-ink-100">
+                {item.fit === 'contain' && (
+                  <img
+                    src={item.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full scale-110 object-cover blur-xl"
+                  />
+                )}
                 <img
                   src={item.image}
                   alt=""
                   loading="lazy"
-                  className="graded aspect-[16/10] w-full object-cover transition-transform [transition-duration:1100ms] ease-out group-hover:scale-[1.05]"
+                  className={`graded relative aspect-[16/10] w-full ${
+                    item.fit === 'contain'
+                      ? 'object-contain'
+                      : 'object-cover transition-transform [transition-duration:1100ms] ease-out group-hover:scale-[1.05]'
+                  }`}
                 />
               </div>
 
