@@ -12,6 +12,13 @@ const links = [
   { to: '/contact', label: 'Contact' },
 ]
 
+/* A clicked link keeps focus, and `:focus-visible` turns the ring back on the
+   moment the reader touches the keyboard again — so scrolling with the space
+   bar after clicking "Services" drew a red box around it. Taking the default
+   off mousedown means a pointer never focuses the link in the first place.
+   Tab and Enter are untouched, so keyboard users still get the ring. */
+const dropPointerFocus = (e) => e.preventDefault()
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -48,7 +55,12 @@ export default function Navbar() {
 
           <nav className="hidden items-center gap-8 md:flex">
             {links.map((l) => (
-              <NavLink key={l.to} to={l.to} className="group relative py-1 text-sm font-medium">
+              <NavLink
+                key={l.to}
+                to={l.to}
+                onMouseDown={dropPointerFocus}
+                className="group relative py-1 text-sm font-medium"
+              >
                 {({ isActive }) => (
                   <>
                     <span className={isActive ? 'text-ink-900' : 'text-ink-500 transition-colors group-hover:text-ink-900'}>
@@ -107,6 +119,7 @@ export default function Navbar() {
                 >
                   <NavLink
                     to={l.to}
+                    onMouseDown={dropPointerFocus}
                     className={({ isActive }) =>
                       `flex items-center justify-between border-b border-line py-5 font-display text-2xl font-semibold tracking-tight ${
                         isActive ? 'text-brand-500' : 'text-ink-900'
