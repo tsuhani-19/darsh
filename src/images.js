@@ -12,6 +12,7 @@
 /* Local photos live in /src/assets and are imported so Vite fingerprints them. */
 import aiAutomation from './assets/ai-automation.png'
 import brandingPoster from './assets/branding-poster.png'
+import contactCall from './assets/contact-call.png'
 import discovery from './assets/discovery.png'
 import marketingPoster from './assets/marketing-poster.png'
 import mobilePoster from './assets/mobile-poster.png'
@@ -71,7 +72,7 @@ export const img = {
   svcHero: u('photo-1522202176988-66273c2fd55f', 1100),
 
   /* ---------- contact ---------- */
-  contactCall: u('photo-1600880292203-757bb62b4baf', 900),
+  contactCall,
 }
 
 /* Dev-only guard: shout if two slots ever point at the same picture again. */

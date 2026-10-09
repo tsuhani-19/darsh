@@ -79,7 +79,7 @@ export default function Contact() {
                   src={img.contactCall}
                   alt="A project kickoff conversation"
                   loading="lazy"
-                  className="aspect-[16/10] w-full object-cover"
+                  className="aspect-[16/9] w-full object-cover"
                 />
                 <div className="bg-white p-5">
                   <p className="font-display text-[0.98rem] font-semibold text-ink-900">
