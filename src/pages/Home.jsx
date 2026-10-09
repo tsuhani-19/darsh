@@ -136,9 +136,14 @@ function Hero() {
             className="mt-7 grid grid-cols-1 gap-3 sm:mt-8 sm:flex sm:flex-wrap sm:items-center"
           >
             <Magnetic>
-              <Link to="/contact" className="btn-spectrum w-full !py-3.5 sm:w-auto sm:!py-3">
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-spectrum w-full !py-3.5 sm:w-auto sm:!py-3"
+              >
                 Start a project <ArrowRight size={16} />
-              </Link>
+              </a>
             </Magnetic>
             <Magnetic strength={0.22}>
               <Link to="/services" className="btn-outline w-full !py-3.5 sm:w-auto sm:!py-3">
@@ -478,9 +483,14 @@ export function CTA() {
               <Reveal delay={0.3}>
                 <div className="flex flex-wrap gap-3 lg:justify-end">
                   <Magnetic>
-                    <Link to="/contact" className="btn-light">
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-light"
+                    >
                       Start a project <ArrowRight size={15} />
-                    </Link>
+                    </a>
                   </Magnetic>
                   <Magnetic strength={0.22}>
                     <a

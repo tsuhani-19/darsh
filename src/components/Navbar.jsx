@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import Logo from './Logo.jsx'
-import { site } from '../siteConfig.js'
+import { site, whatsappLink } from '../siteConfig.js'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -80,9 +80,14 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link to="/contact" className="btn-dark hidden !px-5 !py-2.5 !text-[0.85rem] sm:inline-flex">
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-dark hidden !px-5 !py-2.5 !text-[0.85rem] sm:inline-flex"
+            >
               Start a project
-            </Link>
+            </a>
             <button
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -137,9 +142,14 @@ export default function Navbar() {
                 transition={{ delay: 0.3 }}
                 className="mt-8 space-y-3"
               >
-                <Link to="/contact" className="btn-primary w-full">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary w-full"
+                >
                   Start a project
-                </Link>
+                </a>
                 <a href={site.phoneHref} className="btn-outline w-full">
                   <Phone size={15} /> Call us
                 </a>

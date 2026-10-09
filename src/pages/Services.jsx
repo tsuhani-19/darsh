@@ -12,6 +12,7 @@ import ProcessTimeline from '../components/ProcessTimeline.jsx'
 import LayerStack from '../components/LayerStack.jsx'
 import { CTA } from './Home.jsx'
 import { services, serviceCategories, process, faqs } from '../data.js'
+import { whatsappLink } from '../siteConfig.js'
 
 const stacks = [
   { group: 'Front end', items: ['React', 'Next.js', 'Vue', 'TypeScript', 'Tailwind CSS'] },
@@ -29,9 +30,14 @@ export default function Services() {
         subtitle="Take a single service or hand over the whole project. Either way there is one team, one schedule, and one person you can ask about any part of it."
         chips={['Nine services', 'One point of contact', 'Fixed quotes']}
         actions={
-          <Link to="/contact" className="btn-spectrum">
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-spectrum"
+          >
             Start a project <ArrowRight size={15} />
-          </Link>
+          </a>
         }
         art={<ServicesArt />}
       />
