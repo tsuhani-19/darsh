@@ -112,6 +112,7 @@ export const process = [
     text: 'A working session on your business, your customers and what this project has to achieve. Nothing gets designed or priced until we agree on that.',
     deliverable: 'Written scope, timeline and a fixed quote',
     image: img.stepDiscovery,
+    fit: 'contain', // poster art with a headline in it — must not be cropped
   },
   {
     step: '02',
