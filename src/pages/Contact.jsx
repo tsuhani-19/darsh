@@ -20,7 +20,6 @@ import {
 import { img } from '../images.js'
 import { services } from '../data.js'
 
-const budgets = ['Under ₹50,000', '₹50,000 – ₹2 lakh', '₹2 – 5 lakh', '₹5 lakh +', 'Not sure yet']
 
 export default function Contact() {
   return (
@@ -177,7 +176,6 @@ function BriefBuilder() {
     name: '',
     company: '',
     service: services[0].title,
-    budget: budgets[1],
     details: '',
   })
   const [touched, setTouched] = useState(false)
@@ -197,7 +195,6 @@ function BriefBuilder() {
       `Name: ${form.name}`,
       form.company ? `Company: ${form.company}` : null,
       `Looking for: ${form.service}`,
-      `Budget: ${form.budget}`,
       '',
       'About the project:',
       form.details,
@@ -230,36 +227,25 @@ function BriefBuilder() {
           <Input id="brief-company" value={form.company} onChange={set('company')} placeholder="Lumen Health" />
         </Field>
 
-        <Field id="brief-service" label="What do you need">
-          <Select value={form.service} onValueChange={pick('service')}>
-            <SelectTrigger id="brief-service" className="group">
-              <SelectValue placeholder="Pick a service" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* the short name reads cleanly in the trigger; the full title is
-                  still what gets sent in the brief */}
-              {services.map((s) => (
-                <SelectItem key={s.slug} value={s.title}>
-                  {s.short}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
-        <Field id="brief-budget" label="Budget range">
-          <Select value={form.budget} onValueChange={pick('budget')}>
-            <SelectTrigger id="brief-budget" className="group">
-              <SelectValue placeholder="Pick a range" />
-            </SelectTrigger>
-            <SelectContent>
-              {budgets.map((b) => (
-                <SelectItem key={b} value={b}>
-                  {b}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
+        {/* full width: it used to share the row with the budget range */}
+        <div className="sm:col-span-2">
+          <Field id="brief-service" label="What do you need">
+            <Select value={form.service} onValueChange={pick('service')}>
+              <SelectTrigger id="brief-service" className="group">
+                <SelectValue placeholder="Pick a service" />
+              </SelectTrigger>
+              <SelectContent>
+                {/* the short name reads cleanly in the trigger; the full title is
+                    still what gets sent in the brief */}
+                {services.map((s) => (
+                  <SelectItem key={s.slug} value={s.title}>
+                    {s.short}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+        </div>
 
         <div className="sm:col-span-2">
           <Field id="brief-details" label="About the project" required>
