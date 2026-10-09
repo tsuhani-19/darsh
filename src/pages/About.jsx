@@ -89,7 +89,10 @@ export default function About() {
       <section className="snap-sec relative">
         <div className="relative h-[22rem] overflow-hidden sm:h-[26rem]">
           <img src={img.aboutWide} alt="" className="graded absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-ink-900/80" />
+          {/* 80% flat black left almost nothing of the photograph showing; the
+              left-weighted scrim below already does the work of holding the
+              type, so this only has to settle the picture down. */}
+          <div className="absolute inset-0 bg-ink-900/40" />
           <AuroraMesh intensity={0.3} />
           {/* The aurora's four blobs are each 30% opaque, so stacked over a
               short band they lift it far past what the scrim underneath can

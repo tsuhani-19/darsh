@@ -25,8 +25,9 @@ export default function ProcessTimeline({ items }) {
         {items.map((item, i) => (
           <motion.li
             key={item.step}
-            initial={{ opacity: 0, y: 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={{ hidden: { opacity: 0, y: 26 }, shown: { opacity: 1, y: 0 } }}
+            initial="hidden"
+            whileInView="shown"
             viewport={{ once: true, margin: '-90px' }}
             transition={{ duration: 0.7, delay: i * 0.12, ease: EASE }}
             className="relative flex gap-5 pb-10 lg:block lg:pb-0"
@@ -36,11 +37,16 @@ export default function ProcessTimeline({ items }) {
               <span className="absolute bottom-0 left-[1.4rem] top-12 w-px bg-line lg:hidden" />
             )}
 
-            {/* node */}
+            {/* The node rides its row's variant rather than watching the viewport
+                itself. Watching it was unreliable: the margin that holds a
+                reveal back until a card is properly on screen is -90px, which
+                is wider than this 44px dot, so whether the dot ever qualified
+                came down to how far from the edge of the window it happened to
+                sit. At some widths step 01 — the one nearest the left edge on
+                desktop and the top of the section on a phone — never did, and
+                `once` meant it never got a second chance. */}
             <motion.span
-              initial={{ scale: 0.5, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, margin: '-90px' }}
+              variants={{ hidden: { scale: 0.5, opacity: 0 }, shown: { scale: 1, opacity: 1 } }}
               transition={{ duration: 0.45, delay: 0.25 + i * 0.12, type: 'spring', stiffness: 260, damping: 18 }}
               className="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-white font-display text-[0.78rem] font-bold tabular-nums text-brand-600 shadow-soft"
             >
