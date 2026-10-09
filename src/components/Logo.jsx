@@ -1,10 +1,20 @@
 import { Link } from 'react-router-dom'
 import { site } from '../siteConfig.js'
+import logoArt from '../assets/logo-transparent.png'
 
 /**
  * Every appearance of the Darsh Innovations logo on the site comes from here,
- * and every one of them draws the one official file: public/logo.svg. Nothing
- * redraws, recolours or re-letters the artwork.
+ * and every one of them draws the one official artwork. Nothing redraws,
+ * recolours or re-letters it.
+ *
+ * What it draws is public/logo.svg with its ground knocked out. The published
+ * file is a palette PNG sitting on a flat #fdfdfd, which showed as a pale box
+ * wherever the surface behind it was not pure white. The transparent copy was
+ * built from that same file by rewriting its 59-entry palette — per colour,
+ * how much ink covers the ground becomes the alpha and the ink's own colour is
+ * recovered — so every pixel of ink is the published pixel and the edges stay
+ * anti-aliased. Areas the artwork draws in white are white no longer: they
+ * show whatever is behind them, which is what it was authored against.
  *
  * The official file is the full lockup — the swirl mark with "Darsh
  * Innovations" beside it — 1618 x 971. Some slots (an avatar, a watermark, a
@@ -33,7 +43,7 @@ export function LogoMark({ className = 'h-10 w-10', title }) {
       aria-hidden={title ? undefined : 'true'}
     >
       <img
-        src={site.logo}
+        src={logoArt}
         alt=""
         draggable={false}
         // Width alone — height stays auto, so the artwork keeps its proportions
@@ -53,7 +63,7 @@ export function LogoMark({ className = 'h-10 w-10', title }) {
 export function LogoLockup({ className = 'h-10' }) {
   return (
     <img
-      src={site.logo}
+      src={logoArt}
       alt={site.name}
       draggable={false}
       className={`${className} w-auto select-none object-contain`}
@@ -69,11 +79,8 @@ const LOCKUP = { x: 96, y: 184, w: 1426, h: 548 }
 /**
  * The lockup as the home link — the navbar and anywhere else it clicks.
  *
- * Shown through a window trimmed to the ink. The artwork's ground is a flat
- * #fdfdfd, which against the white header read as a grey box; a 1% lift takes
- * it to pure white without visibly touching the mark. (A blend mode cannot do
- * this: the fixed header is its own stacking context with nothing behind the
- * logo to blend with.)
+ * Shown through a window trimmed to the ink. The ground is already
+ * transparent, so nothing has to be lightened to hide it.
  */
 export default function Logo({ className = 'h-10' }) {
   return (
@@ -83,14 +90,13 @@ export default function Logo({ className = 'h-10' }) {
         style={{ aspectRatio: `${LOCKUP.w} / ${LOCKUP.h}` }}
       >
         <img
-          src={site.logo}
+          src={logoArt}
           alt={site.name}
           draggable={false}
           style={{
             width: `${(ART.w / LOCKUP.w) * 100}%`,
             left: `${(-LOCKUP.x / LOCKUP.w) * 100}%`,
             top: `${(-LOCKUP.y / LOCKUP.h) * 100}%`,
-            filter: 'brightness(1.01)',
           }}
           className="absolute max-w-none select-none"
         />

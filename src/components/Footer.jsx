@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Mail, MapPin, Phone } from 'lucide-react'
-import { LogoLockup, LOGO_PAPER } from './Logo.jsx'
+import logoOnInk from '../assets/logo-on-ink.png'
 import FooterWordmark from './FooterWordmark.jsx'
 import { Reveal } from './ui.jsx'
 import { site, whatsappLink } from '../siteConfig.js'
@@ -19,15 +19,17 @@ export default function Footer() {
       <div className="container-x relative py-16 sm:py-20">
         <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr] lg:gap-12">
           <Reveal className="col-span-2 lg:col-span-1">
-            {/* The artwork is published on its own near-white ground, so on
-                ink it sits on a plate in exactly that colour — a deliberate
-                badge rather than a white rectangle with a visible seam. */}
-            <div
-              className="inline-flex items-center rounded-xl px-4 py-2"
-              style={{ backgroundColor: LOGO_PAPER }}
-            >
-              <LogoLockup className="h-14" />
-            </div>
+            {/* A version of the official artwork knocked out for ink: the
+                near-white ground is transparent and the wordmark's black ink
+                is light, so the lockup needs no plate behind it here. The
+                palette was rebuilt from the same file, so the red is the
+                brand red and the anti-aliasing stays clean. */}
+            <img
+              src={logoOnInk}
+              alt={site.name}
+              draggable={false}
+              className="h-14 w-auto select-none object-contain"
+            />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-400">
               A digital studio in Mumbai. Design, engineering, marketing and video in one
               place, so the work stays consistent from the first sketch to launch day.
