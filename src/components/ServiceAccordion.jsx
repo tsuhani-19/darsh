@@ -94,11 +94,16 @@ function Panels({ items, active, setActive }) {
               style={{ flexGrow: on ? 7 : 1, willChange: 'flex-grow' }}
               className="group relative h-full min-w-[3.5rem] basis-0 overflow-hidden rounded-2xl text-left transition-[flex-grow] [transition-duration:700ms] ease-out [contain:layout_paint]"
             >
+              {/* `object-top`, not the default centre: the artwork is portrait and
+                  the open panel is wider than it is tall, so cover crops top and
+                  bottom. Centred, that took the headline off the top of every
+                  poster. Anchored to the top the headline survives and the crop
+                  comes off the bottom, which the veil and the copy cover anyway. */}
               <img
                 src={s.image}
                 alt=""
                 loading="lazy"
-                className={`absolute inset-0 h-full w-full object-cover transition-all [transition-duration:900ms] ease-out ${
+                className={`absolute inset-0 h-full w-full object-cover object-top transition-all [transition-duration:900ms] ease-out ${
                   on ? 'scale-100 saturate-100' : 'scale-110 saturate-[0.25]'
                 }`}
               />
@@ -190,7 +195,7 @@ function Panels({ items, active, setActive }) {
                 aria-expanded={on}
                 className="relative block h-24 w-full text-left"
               >
-                <img src={s.image} alt="" loading="lazy" className="graded absolute inset-0 h-full w-full object-cover" />
+                <img src={s.image} alt="" loading="lazy" className="graded absolute inset-0 h-full w-full object-cover object-top" />
                 <div className={`absolute inset-0 bg-gradient-to-r to-transparent ${veil[s.tone]}`} />
                 <div className="relative flex h-full items-center gap-4 px-5">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/15 text-white backdrop-blur-sm">
