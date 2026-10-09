@@ -37,7 +37,7 @@ export default function About() {
       <PageHero
         eyebrow="About"
         lines={['A small studio that', 'would rather do', 'four things properly.']}
-        subtitle="Darsh Innovations is a digital studio in Mumbai. We design and build websites, web apps and mobile apps, and we run the marketing and video work that brings people to them."
+        subtitle="Darsh Innovations is a digital studio in Mumbai. We design and build websites and mobile apps, and we run the marketing and video work that brings people to them."
         chips={['Design', 'Engineering', 'Marketing', 'Video', 'Mumbai']}
         actions={
           <>

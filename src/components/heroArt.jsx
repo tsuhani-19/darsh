@@ -137,8 +137,8 @@ export function ServicesArt() {
 --------------------------------------------------------------------------- */
 const CHAT = [
   { from: 'them', text: `Hello ${site.name},` },
-  { from: 'them', text: 'Looking for: Web application\nBudget: ₹2 – 5 lakh' },
-  { from: 'them', text: 'We need an ops dashboard for about 40 people. Hoping to launch by March.' },
+  { from: 'them', text: 'Looking for: Mobile app\nBudget: ₹2 – 5 lakh' },
+  { from: 'them', text: 'An iOS and Android app for our field team, about 40 people. Hoping to launch by March.' },
   { from: 'us', text: 'Got it — that is a clear scope. Free for a 30 minute call tomorrow?' },
 ]
 

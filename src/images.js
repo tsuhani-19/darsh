@@ -5,31 +5,44 @@
    the codebase should hardcode an Unsplash id — import from here instead, so a
    picture can never quietly end up doing three jobs on three pages.
 
-   Swap any value for a real project photo: drop the file in /public/shots/ and
-   set the entry to '/shots/whatever.jpg'.
+   Swap any value for a real project photo: drop the file in /src/assets/ and
+   import it at the top of this file, then set the entry to that import.
 --------------------------------------------------------------------------- */
+
+/* Local photos live in /src/assets and are imported so Vite fingerprints them. */
+import aiAutomation from './assets/ai-automation.png'
+import brandingPoster from './assets/branding-poster.png'
+import discovery from './assets/discovery.png'
+import marketingPoster from './assets/marketing-poster.png'
+import mobilePoster from './assets/mobile-poster.png'
+import posterBeyondOrdinary from './assets/poster-beyond-ordinary.png'
+import seoPoster from './assets/seo-poster.png'
+import stepBuild from './assets/step-build.png'
+import stepDesign from './assets/step-design.png'
+import stepLaunch from './assets/step-launch.png'
+import videoPoster from './assets/video-poster.png'
+import websitesPoster from './assets/websites-poster.png'
 
 const u = (id, w = 1200) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`
 
 export const img = {
   /* ---------- services (one each) ---------- */
-  svcWebsites: u('photo-1517245386807-bb43f82c33c4'),
-  svcWebApps: u('photo-1551288049-bebda4e38f71'),
-  svcMobile: u('photo-1581091226825-a6a2a5aee158'),
-  svcMarketing: u('photo-1432888622747-4eb9a8efeb07'),
-  svcVideo: u('photo-1611162617213-7d7a39e9b1d7'),
-  svcBranding: u('photo-1561070791-2526d30994b5'),
-  svcSeo: u('photo-1516321318423-f06f85e504b3'),
-  svcEcom: u('photo-1563986768609-322da13575f3'),
-  svcAi: u('photo-1620712943543-bcc4688e7485'),
+  svcWebsites: websitesPoster,
+  svcMobile: mobilePoster,
+  svcMarketing: marketingPoster,
+  svcVideo: videoPoster,
+  svcBranding: brandingPoster,
+  svcSeo: seoPoster,
+  svcAi: aiAutomation,
 
   /* ---------- process ---------- */
-  stepDiscovery: u('photo-1517048676732-d65bc937f952'),
-  stepDesign: u('photo-1517292987719-0369a794ec0f'),
-  stepBuild: u('photo-1498050108023-c5249f4df085'),
-  stepLaunch: u('photo-1552664730-d307ca884978'),
+  stepDiscovery: discovery,
+  stepDesign,
+  stepBuild,
+  stepLaunch,
 
   /* ---------- home ---------- */
+  statementPoster: posterBeyondOrdinary,
   homeHero: u('photo-1522071820081-009f0129c71c'),
   homeHeroInset: u('photo-1593642532842-98d0fd5ebc1a', 700),
   homeApproachA: u('photo-1521737604893-d14cc237f11d'),

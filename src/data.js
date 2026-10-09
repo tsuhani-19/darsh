@@ -1,6 +1,6 @@
 import {
-  Globe, Smartphone, LayoutDashboard, Megaphone, Clapperboard,
-  PenTool, Search, ShoppingCart, Bot,
+  Globe, Smartphone, Megaphone, Clapperboard,
+  PenTool, Search, Bot,
 } from 'lucide-react'
 
 import { img } from './images.js'
@@ -24,17 +24,6 @@ export const services = [
     blurb: 'Marketing sites, portfolios and landing pages that load fast and read clearly.',
     points: ['Custom design, no templates', 'React or Next.js builds', 'A CMS your team can run', 'Speed and accessibility tuned'],
     image: img.svcWebsites,
-    tone: 'brand',
-  },
-  {
-    slug: 'web-apps',
-    short: 'Web apps',
-    category: 'Build',
-    icon: LayoutDashboard,
-    title: 'Web applications',
-    blurb: 'Dashboards, portals, CRMs and internal tools built for daily use by real teams.',
-    points: ['React front ends, Node or Rust APIs', 'Roles and permissions', 'Reporting and exports', 'Deployed and monitored'],
-    image: img.svcWebApps,
     tone: 'brand',
   },
   {
@@ -93,17 +82,6 @@ export const services = [
     tone: 'steel',
   },
   {
-    slug: 'ecommerce',
-    short: 'E-commerce',
-    category: 'Build',
-    icon: ShoppingCart,
-    title: 'E-commerce',
-    blurb: 'Stores built around checkout speed, trust and repeat purchase.',
-    points: ['Shopify and custom builds', 'Payments and logistics', 'Checkout optimisation', 'Retention and email flows'],
-    image: img.svcEcom,
-    tone: 'crimson',
-  },
-  {
     slug: 'ai',
     short: 'AI',
     category: 'Automate',
@@ -119,9 +97,7 @@ export const services = [
 /* Rough inputs for the estimator. Tune these to your real pricing. */
 export const estimatorOptions = [
   { id: 'website', label: 'Marketing website', weeks: 4, from: 60000, icon: Globe },
-  { id: 'webapp', label: 'Web app or dashboard', weeks: 10, from: 250000, icon: LayoutDashboard },
   { id: 'mobile', label: 'Mobile app', weeks: 12, from: 300000, icon: Smartphone },
-  { id: 'ecommerce', label: 'Online store', weeks: 6, from: 120000, icon: ShoppingCart },
   { id: 'brand', label: 'Brand & identity', weeks: 3, from: 45000, icon: PenTool },
   { id: 'marketing', label: 'Marketing & ads', weeks: 2, from: 35000, icon: Megaphone },
   { id: 'video', label: 'Video & motion', weeks: 2, from: 25000, icon: Clapperboard },
@@ -144,6 +120,7 @@ export const process = [
     text: 'Rough layouts first, then the full design. You review it before anyone writes code, while a change still takes minutes rather than weeks.',
     deliverable: 'A clickable prototype in Figma',
     image: img.stepDesign,
+    fit: 'contain', // poster art with a headline in it — must not be cropped
   },
   {
     step: '03',
@@ -152,6 +129,7 @@ export const process = [
     text: 'Short cycles, tested as we go. You see progress as it happens and can change direction well before anything is too far along to alter.',
     deliverable: 'A private test link, updated as we work',
     image: img.stepBuild,
+    fit: 'contain', // poster art with a headline in it — must not be cropped
   },
   {
     step: '04',
@@ -160,6 +138,7 @@ export const process = [
     text: 'We put it live, set up analytics and train your team on it. After that we stay on for monitoring, fixes and the changes real usage turns out to need.',
     deliverable: 'Live product, analytics and handover',
     image: img.stepLaunch,
+    fit: 'contain', // poster art with a headline in it — must not be cropped
   },
 ]
 

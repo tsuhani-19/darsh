@@ -5,7 +5,6 @@ import { AnimatePresence, MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import AssistantWidget from './components/AssistantWidget.jsx'
-import BackToTop from './components/BackToTop.jsx'
 import CursorGlow from './components/fx/CursorGlow.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
 import Grain from './components/fx/Grain.jsx'
@@ -62,7 +61,6 @@ export default function App() {
       </main>
 
       <Footer />
-      <BackToTop />
       <AssistantWidget />
     </MotionConfig>
   )

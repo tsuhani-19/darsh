@@ -198,17 +198,37 @@ function CapabilityStrip() {
 }
 
 /* ============================== STATEMENT ============================== */
+/* The poster carries the same claim the sentence does — clarity first, then
+   something built for you — so it sits beside the statement rather than being
+   dropped into a photo band, where its own typography would fight the page.
+   Portrait art against a long line of type: the column holds it on desktop,
+   and on a phone it leads the section instead. */
 function StatementSection() {
   return (
     <section className="py-24 sm:py-32">
-      <div className="container-x max-w-4xl">
-        <SpectrumRule className="mb-10 max-w-[7rem]" />
-        <p className="eyebrow mb-7">Why us</p>
-        <ScrollHighlight
-          text="A design on its own does not do much. We take it through to a working product, put it live, run the ads and video around it, and stay involved once real people start using it."
-          accentFrom={20}
-          className="font-display text-[1.6rem] font-semibold leading-[1.4] tracking-[-0.015em] text-ink-900 sm:text-[2.15rem]"
-        />
+      <div className="container-x">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
+          <Reveal>
+            <figure className="relative mx-auto max-w-sm overflow-hidden rounded-2xl border border-line bg-ink-900 shadow-lift lg:max-w-none">
+              <img
+                src={img.statementPoster}
+                alt="Darsh Innovations poster: Beyond Ordinary — clarity first, built for you."
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </figure>
+          </Reveal>
+
+          <div className="max-w-2xl">
+            <SpectrumRule className="mb-10 max-w-[7rem]" />
+            <p className="eyebrow mb-7">Why us</p>
+            <ScrollHighlight
+              text="A design on its own does not do much. We take it through to a working product, put it live, run the ads and video around it, and stay involved once real people start using it."
+              accentFrom={20}
+              className="font-display text-[1.6rem] font-semibold leading-[1.4] tracking-[-0.015em] text-ink-900 sm:text-[2.15rem]"
+            />
+          </div>
+        </div>
       </div>
     </section>
   )

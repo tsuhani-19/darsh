@@ -89,14 +89,6 @@ export default function AssistantWidget() {
 
   const stepAside = useHideOnScrollDown() && !open && !isPhone
 
-  // On a phone the back-to-top button stacks above this one, right where the
-  // open panel goes, so it gets out of the way while the panel is up.
-  useEffect(() => {
-    if (open) document.body.dataset.assistantOpen = ''
-    else delete document.body.dataset.assistantOpen
-    return () => delete document.body.dataset.assistantOpen
-  }, [open])
-
   return (
     <div
       className={`floating-ui fixed bottom-5 right-5 z-[70] flex flex-col items-end gap-3 transition-[transform,opacity] duration-300 sm:bottom-7 sm:right-7 ${
