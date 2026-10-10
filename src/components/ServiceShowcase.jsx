@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { servicePageFor } from '../content/servicePages.js'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check } from 'lucide-react'
 
@@ -76,7 +77,7 @@ export default function ServiceShowcase({ items }) {
                           ))}
                         </ul>
                         <Link
-                          to="/services"
+                          to={servicePageFor(s.slug)?.path ?? '/services'}
                           className="link-wipe mt-4 text-[0.82rem]"
                         >
                           Details <ArrowUpRight size={13} />

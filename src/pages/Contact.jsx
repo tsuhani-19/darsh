@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Clock, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
+import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
 
 import PageTransition from '../components/PageTransition.jsx'
 import PageHero from '../components/PageHero.jsx'
@@ -27,7 +27,9 @@ export default function Contact() {
       <PageHero
         eyebrow="Contact"
         lines={['Tell us what you', 'are trying to build.']}
-        subtitle="This form does not vanish into an inbox. Fill it in and it opens WhatsApp with your brief already written out — or call instead and skip the typing."
+        subtitle={`This form does not vanish into an inbox. Fill it in and it opens WhatsApp with your brief already written out${
+          site.phone ? ' — or call instead and skip the typing.' : '.'
+        }`}
         chips={['Free 30-minute call', 'No pitch deck', 'Reply within a working day']}
         art={<ContactArt />}
       />
@@ -40,14 +42,25 @@ export default function Contact() {
 
           <div className="space-y-4">
             <Reveal delay={0.08}>
-              <ContactCard
-                icon={Phone}
-                tone="bg-brand-600"
-                title="Call"
-                value={site.phone}
-                note="You get a person, not a queue"
-                href={site.phoneHref}
-              />
+              {site.phone ? (
+                <ContactCard
+                  icon={Phone}
+                  tone="bg-brand-600"
+                  title="Call"
+                  value={site.phone}
+                  note="You get a person, not a queue"
+                  href={site.phoneHref}
+                />
+              ) : (
+                <ContactCard
+                  icon={Mail}
+                  tone="bg-brand-600"
+                  title="Email"
+                  value={site.email}
+                  note="A person reads every message"
+                  href={`mailto:${site.email}`}
+                />
+              )}
             </Reveal>
             <Reveal delay={0.14}>
               <ContactCard
@@ -62,11 +75,13 @@ export default function Contact() {
             </Reveal>
             <Reveal delay={0.2}>
               <div className="card">
+                {site.address && (
+                  <div className="mb-4 flex items-start gap-3 text-[0.9rem] text-ink-600">
+                    <MapPin size={17} className="mt-0.5 shrink-0 text-crimson-400" />
+                    <span>{site.address}</span>
+                  </div>
+                )}
                 <div className="flex items-start gap-3 text-[0.9rem] text-ink-600">
-                  <MapPin size={17} className="mt-0.5 shrink-0 text-crimson-400" />
-                  <span>{site.address}</span>
-                </div>
-                <div className="mt-4 flex items-start gap-3 text-[0.9rem] text-ink-600">
                   <Clock size={17} className="mt-0.5 shrink-0 text-gold-400" />
                   <span>{site.hours}</span>
                 </div>
@@ -77,6 +92,8 @@ export default function Contact() {
                 <img
                   src={img.contactCall}
                   alt="A project kickoff conversation"
+                  width={1200}
+                  height={675}
                   loading="lazy"
                   className="aspect-[16/9] w-full object-cover"
                 />
@@ -310,9 +327,15 @@ function BriefBuilder() {
         <button type="submit" className="btn-spectrum">
           Send on WhatsApp <Send size={15} />
         </button>
-        <a href={site.phoneHref} className="btn-outline">
-          <Phone size={15} /> Call instead
-        </a>
+        {site.phone ? (
+          <a href={site.phoneHref} className="btn-outline">
+            <Phone size={15} /> Call instead
+          </a>
+        ) : (
+          <a href={`mailto:${site.email}`} className="btn-outline">
+            <Mail size={15} /> Email instead
+          </a>
+        )}
       </div>
     </form>
   )

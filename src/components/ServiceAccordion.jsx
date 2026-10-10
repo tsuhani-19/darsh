@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check, Plus } from 'lucide-react'
 
 import { useSlideDistance } from './ui.jsx'
+import { servicePageFor } from '../content/servicePages.js'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -135,10 +136,10 @@ function Panels({ items, active, setActive }) {
                     </ul>
 
                     <Link
-                      to="/contact"
+                      to={servicePageFor(s.slug)?.path ?? '/contact'}
                       className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[0.83rem] font-semibold text-ink-900 transition-transform hover:scale-[1.03]"
                     >
-                      Talk about this <ArrowUpRight size={14} />
+                      {servicePageFor(s.slug) ? 'Learn more' : 'Talk about this'} <ArrowUpRight size={14} />
                     </Link>
                   </motion.div>
                 )}
@@ -200,10 +201,10 @@ function Panels({ items, active, setActive }) {
                         ))}
                       </ul>
                       <Link
-                        to="/contact"
+                        to={servicePageFor(s.slug)?.path ?? '/contact'}
                         className="link-wipe mt-4 text-[0.83rem]"
                       >
-                        Talk about this <ArrowUpRight size={13} />
+                        {servicePageFor(s.slug) ? 'Learn more' : 'Talk about this'} <ArrowUpRight size={13} />
                       </Link>
                     </div>
                   </motion.div>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Phone, X, MessageCircle, PhoneCall } from 'lucide-react'
+import { Phone, X, MessageCircle, PhoneCall, Mail } from 'lucide-react'
 import { site, whatsappLink } from '../siteConfig.js'
 import { LogoMark } from './Logo.jsx'
 import { useHideOnScrollDown } from './ui.jsx'
@@ -145,18 +145,20 @@ export default function AssistantWidget() {
                   className="space-y-2 border-t border-line p-3"
                 >
                   <motion.a
-                    href={site.phoneHref}
+                    href={site.phone ? site.phoneHref : `mailto:${site.email}`}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.04 }}
                     className="group flex items-center gap-3 rounded-xl border border-line px-3.5 py-3 transition-colors hover:border-brand-300 hover:bg-brand-50"
                   >
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-white">
-                      <PhoneCall size={16} />
+                      {site.phone ? <PhoneCall size={16} /> : <Mail size={16} />}
                     </span>
                     <span className="flex-1">
-                      <span className="block text-[0.85rem] font-semibold text-ink-900">Talk on a call</span>
-                      <span className="block text-[0.75rem] text-ink-400">{site.phone}</span>
+                      <span className="block text-[0.85rem] font-semibold text-ink-900">
+                        {site.phone ? 'Talk on a call' : 'Send an email'}
+                      </span>
+                      <span className="block text-[0.75rem] text-ink-400">{site.phone || site.email}</span>
                     </span>
                     <span className="text-ink-300 transition-transform group-hover:translate-x-0.5">→</span>
                   </motion.a>

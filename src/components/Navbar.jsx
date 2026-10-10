@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, Phone, Mail } from 'lucide-react'
 import Logo from './Logo.jsx'
 import { site, whatsappLink } from '../siteConfig.js'
 
@@ -9,6 +9,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
   { to: '/services', label: 'Services' },
+  { to: '/blog', label: 'Blog' },
   { to: '/contact', label: 'Contact' },
 ]
 
@@ -150,9 +151,15 @@ export default function Navbar() {
                 >
                   Start a project
                 </a>
-                <a href={site.phoneHref} className="btn-outline w-full">
-                  <Phone size={15} /> Call us
-                </a>
+                {site.phone ? (
+                  <a href={site.phoneHref} className="btn-outline w-full">
+                    <Phone size={15} /> Call us
+                  </a>
+                ) : (
+                  <a href={`mailto:${site.email}`} className="btn-outline w-full">
+                    <Mail size={15} /> Email us
+                  </a>
+                )}
               </motion.div>
             </div>
           </motion.div>

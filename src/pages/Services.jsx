@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Plus } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import PageTransition from '../components/PageTransition.jsx'
 import PageHero from '../components/PageHero.jsx'
@@ -10,8 +8,10 @@ import { Reveal, SectionHeading } from '../components/ui.jsx'
 import ServiceAccordion from '../components/ServiceAccordion.jsx'
 import ProcessTimeline from '../components/ProcessTimeline.jsx'
 import LayerStack from '../components/LayerStack.jsx'
+import FaqAccordion from '../components/FaqAccordion.jsx'
 import { CTA } from './Home.jsx'
 import { services, process, faqs } from '../data.js'
+import { servicePages } from '../content/servicePages.js'
 import { whatsappLink } from '../siteConfig.js'
 
 const stacks = [
@@ -45,6 +45,18 @@ export default function Services() {
       <section className="snap-sec py-16 sm:py-20">
         <div className="container-x">
           <ServiceAccordion items={services} />
+          <nav aria-label="Service pages" className="mt-10 flex flex-wrap items-center gap-2">
+            <span className="mr-2 text-[0.85rem] text-ink-500">In more detail:</span>
+            {servicePages.map((p) => (
+              <Link
+                key={p.path}
+                to={p.path}
+                className="inline-flex rounded-full border border-line bg-white px-4 py-2 text-[0.85rem] text-ink-600 transition-colors hover:border-ink-300 hover:text-ink-900"
+              >
+                {p.name}
+              </Link>
+            ))}
+          </nav>
         </div>
       </section>
 
@@ -94,48 +106,11 @@ export default function Services() {
               </Link>
             </Reveal>
           </div>
-          <div className="border-t border-line">
-            {faqs.map((f, i) => (
-              <Reveal key={f.q} delay={i * 0.05}>
-                <Accordion {...f} />
-              </Reveal>
-            ))}
-          </div>
+          <FaqAccordion items={faqs} />
         </div>
       </section>
 
       <CTA />
     </PageTransition>
-  )
-}
-
-function Accordion({ q, a }) {
-  const [open, setOpen] = useState(false)
-  return (
-    <div className="border-b border-line">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="flex w-full items-start justify-between gap-6 py-5 text-left"
-      >
-        <span className="font-display text-[1.02rem] font-semibold tracking-tight text-ink-900">{q}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.25 }} className="mt-0.5 shrink-0 text-ink-400">
-          <Plus size={18} />
-        </motion.span>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <p className="max-w-2xl pb-6 text-[0.92rem] leading-relaxed text-ink-500">{a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   )
 }
