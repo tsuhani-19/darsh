@@ -27,7 +27,8 @@ export const site = {
   // link that goes nowhere — a dead social link costs more trust than a
   // missing one.
   socials: [
-    { label: 'Instagram', href: '' },
+    { label: 'Instagram', href: 'https://www.instagram.com/darshinnovations' },
+    { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595371855955' },
     { label: 'LinkedIn', href: '' },
     { label: 'Dribbble', href: '' },
     { label: 'YouTube', href: '' },
