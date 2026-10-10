@@ -30,8 +30,11 @@ npm run preview  # preview the build
 | Logo artwork | `public/logo.svg` (see below) |
 | Colours, fonts, animations | `tailwind.config.js` |
 
-**Set your real numbers before going live** — `site.phone`, `site.phoneHref` and
-`site.whatsapp` in `src/siteConfig.js` are placeholders.
+**Contact details.** `site.phone` / `site.phoneHref` (+91 92231 91191) and
+`site.whatsapp` (the same number) are the real business numbers. `site.address`
+is empty until confirmed: everything that shows it, and the structured data,
+hides itself while it is blank. If `site.phone` is ever emptied, call buttons
+fall back to email.
 
 ## Content policy
 
@@ -129,7 +132,7 @@ preference entirely.
 bottom-right of every page. Opening it types out a short AI-style greeting character
 by character, then reveals two actions:
 
-- **Connect on a call** → `tel:` link using `site.phoneHref`
+- **Connect on a call** → `tel:` link using `site.phoneHref` (an email link while `site.phone` is empty)
 - **Chat on WhatsApp** → `https://wa.me/...` with a prefilled message
 
 It also self-teases with a "Need help? Let's talk" bubble after ~5s, closes on `Esc`,

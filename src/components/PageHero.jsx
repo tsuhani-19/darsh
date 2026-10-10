@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
 import { LogoMark } from './Logo.jsx'
 import { MaskedHeading, Reveal } from './ui.jsx'
@@ -11,7 +12,7 @@ const EASE = [0.22, 1, 0.36, 1]
  * panel that tilts toward the pointer, and the mark drifts behind it as a
  * watermark — the old version left that whole column empty.
  */
-export default function PageHero({ eyebrow, lines, subtitle, chips = [], actions, art }) {
+export default function PageHero({ eyebrow, lines, subtitle, chips = [], actions, art, breadcrumbs }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const watermarkY = useTransform(scrollYProgress, [0, 1], [0, 90])
@@ -50,7 +51,7 @@ export default function PageHero({ eyebrow, lines, subtitle, chips = [], actions
         <div>
           <Reveal y={10}>
             <SpectrumRule className="mb-5 max-w-[4.5rem]" />
-            <p className="eyebrow mb-5">{eyebrow}</p>
+            {breadcrumbs ? <Breadcrumbs trail={breadcrumbs} /> : <p className="eyebrow mb-5">{eyebrow}</p>}
           </Reveal>
 
           <MaskedHeading
@@ -106,5 +107,33 @@ export default function PageHero({ eyebrow, lines, subtitle, chips = [], actions
         )}
       </div>
     </section>
+  )
+}
+
+/* The visible trail that the page's BreadcrumbList markup (src/seo.js)
+   describes. The last item is the current page, so it is not a link. */
+function Breadcrumbs({ trail }) {
+  return (
+    <nav aria-label="Breadcrumb" className="mb-5">
+      <ol className="eyebrow flex flex-wrap items-center gap-x-2 gap-y-1">
+        {trail.map((c, i) => {
+          const last = i === trail.length - 1
+          return (
+            <li key={c.path} className="flex items-center gap-2">
+              {last ? (
+                <span aria-current="page">{c.name}</span>
+              ) : (
+                <>
+                  <Link to={c.path} className="transition-colors hover:text-ink-900">
+                    {c.name}
+                  </Link>
+                  <span aria-hidden="true">/</span>
+                </>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
   )
 }

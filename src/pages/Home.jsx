@@ -79,41 +79,21 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-500 opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-600" />
             </span>
-            Digital studio · Mumbai
+            Digital studio · Vasai–Virar & Mumbai
           </motion.p>
 
-          {/* A phone cannot hold "Websites, apps and" on one line, so the
-              desktop breaks wrapped inside their own masks and the headline
-              fell apart into five ragged lines. Phones get their own breaks,
-              sized to the viewport so each line fits whole. */}
-          <h1 className="font-display font-bold tracking-[-0.03em] text-ink-900">
-            <MaskedHeading
-              as="span"
-              immediate
-              lines={[
-                'Websites, apps',
-                'and campaigns,',
-                <>
-                  built by <span className="text-spectrum">one team.</span>
-                </>,
-              ]}
-              className="block text-[clamp(1.75rem,8.4vw,2.4rem)] leading-[1.08] sm:hidden"
-            />
-            <span className="hidden sm:block">
-              <MaskedHeading
-                as="span"
-                immediate
-                lines={['Websites, apps and', 'campaigns, built by']}
-                className="block text-[3.4rem] leading-[1.05] lg:text-[3.9rem]"
-              />
-              <MaskedHeading
-                as="span"
-                immediate
-                delay={0.16}
-                lines={['one team.']}
-                className="text-spectrum block text-[3.4rem] leading-[1.05] lg:text-[3.9rem]"
-              />
-            </span>
+          {/* One heading, one copy of the words. The lines break in different
+              places on a phone and on a wider screen ("Websites, apps" /
+              "Websites, apps and"), so the text is cut into the phrases both
+              layouts share, each rising out of its own mask, and responsive
+              <br>s decide where the lines fall. It used to be two complete
+              copies with one hidden, which put the heading in the HTML twice. */}
+          <h1 className="font-display text-[clamp(1.75rem,8.4vw,2.4rem)] font-bold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-[3.4rem] sm:leading-[1.05] lg:text-[3.9rem]">
+            <HeroPhrase i={0}>Websites, apps</HeroPhrase>
+            <br className="sm:hidden" /> <HeroPhrase i={1}>and</HeroPhrase>
+            <br className="hidden sm:inline" /> <HeroPhrase i={2}>automation,</HeroPhrase>
+            <br className="sm:hidden" /> <HeroPhrase i={3}>built by</HeroPhrase>
+            <br className="hidden sm:inline" /> <HeroPhrase i={4} className="text-spectrum">one team.</HeroPhrase>
           </h1>
 
           <motion.p
@@ -122,9 +102,10 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.35 }}
             className="lede mt-5 max-w-xl !text-[0.98rem] sm:mt-6 sm:!text-[1.05rem]"
           >
-            We design, build and market digital products. The website, the app, the ads
-            and the video come from the same people, so you are not the one passing
-            information between four different suppliers.
+            We design and build websites, web and mobile apps and business automation, and
+            run the marketing and video around them, for businesses in Vasai–Virar,
+            Nalasopara and Mumbai and clients across India. One team, so you are not the one
+            passing information between four different suppliers.
           </motion.p>
 
           <motion.div
@@ -191,6 +172,24 @@ function Hero() {
   )
 }
 
+/* A phrase of the hero heading, rising out of its own mask like the lines of
+   MaskedHeading. `inline-block` keeps it on the line so the <br>s around it
+   control the wrapping; the bottom padding stops descenders being clipped. */
+function HeroPhrase({ i, className = '', children }) {
+  return (
+    <span className="inline-block overflow-hidden pb-[0.12em] align-top">
+      <motion.span
+        className={`inline-block ${className}`}
+        initial={{ y: '110%' }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  )
+}
+
 /* =========================== CAPABILITY STRIP =========================== */
 function CapabilityStrip() {
   return (
@@ -216,6 +215,8 @@ function StatementSection() {
               <img
                 src={img.statementPoster}
                 alt="Darsh Innovations poster: Beyond Ordinary — clarity first, built for you."
+                width={800}
+                height={1200}
                 loading="lazy"
                 className="h-full w-full object-cover"
               />

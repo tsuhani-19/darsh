@@ -11,12 +11,15 @@ export const site = {
   // ---------------------------------------------------------------------
   logo: '/logo.svg',
   tagline: 'We design, build and launch digital products, then help them grow.',
+  // The business phone, also the WhatsApp number (confirmed by the owner).
   phone: '+91 92231 91191',
   phoneHref: 'tel:+919223191191',
   whatsapp: '919223191191', // country code + number, digits only
   whatsappMessage: 'Hi Darsh Innovations! I would like to discuss a project.',
   email: 'darshinnovations@gmail.com',
-  address: 'Building 102, Shanti Kutir, Tulinj Road, near Nallasopara East, Mumbai',
+  // Left empty until the owner confirms it. Everything that shows the address
+  // (and the structured data) hides itself while this is blank.
+  address: '',
   city: 'Mumbai',
   hours: 'Mon – Sat · 10:00 – 19:00 IST',
   // Put the real profile URL in `href` and the link appears in the footer.
