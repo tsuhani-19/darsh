@@ -26,12 +26,16 @@ export const site = {
   // Anything still left blank (or on '#') is skipped rather than rendered as a
   // link that goes nowhere — a dead social link costs more trust than a
   // missing one.
+  // `icon` names the lucide-react brand glyph the footer draws for the link;
+  // the label stays as the accessible name and tooltip.
   socials: [
-    { label: 'Instagram', href: 'https://www.instagram.com/darshinnovations' },
-    { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61595371855955' },
-    { label: 'LinkedIn', href: '' },
-    { label: 'Dribbble', href: '' },
-    { label: 'YouTube', href: '' },
+    { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/darshinnovations' },
+    // The page itself, not a post on it. A numeric-id page has no vanity
+    // handle, so profile.php?id=... *is* its canonical address.
+    { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/profile.php?id=61595371855955' },
+    { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/darsh-innovations/' },
+    { label: 'Dribbble', icon: 'dribbble', href: '' },
+    { label: 'YouTube', icon: 'youtube', href: '' },
   ],
 }
 

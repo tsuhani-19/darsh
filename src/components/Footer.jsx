@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Dribbble, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone, Youtube } from 'lucide-react'
 import logoOnInk from '../assets/logo-on-ink.png'
 import FooterWordmark from './FooterWordmark.jsx'
 import { Reveal } from './ui.jsx'
 import { site, whatsappLink } from '../siteConfig.js'
 import { servicePages } from '../content/servicePages.js'
+
+const socialIcons = {
+  instagram: Instagram,
+  facebook: Facebook,
+  linkedin: Linkedin,
+  dribbble: Dribbble,
+  youtube: Youtube,
+}
 
 export default function Footer() {
   return (
@@ -34,20 +42,29 @@ export default function Footer() {
               A digital studio in Mumbai. Design, engineering, marketing and video in one
               place, so the work stays consistent from the first sketch to launch day.
             </p>
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            {/* Icon chips rather than a row of words: the ring, the hover lift
+                and the pointer cursor all say "button" before the glyph is
+                even read, which plain text links here never managed. The
+                label survives as the accessible name and the tooltip. */}
+            <div className="mt-6 flex flex-wrap gap-3">
               {site.socials
                 .filter((s) => s.href && s.href !== '#')
-                .map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink-400 transition-colors hover:text-white"
-                  >
-                    {s.label}
-                  </a>
-                ))}
+                .map((s) => {
+                  const Icon = socialIcons[s.icon] ?? Link2
+                  return (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      title={s.label}
+                      className="group inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/5 text-ink-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-400/60 hover:bg-brand-600 hover:text-white hover:shadow-lg hover:shadow-brand-600/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900"
+                    >
+                      <Icon size={18} strokeWidth={1.75} />
+                    </a>
+                  )
+                })}
             </div>
           </Reveal>
 
