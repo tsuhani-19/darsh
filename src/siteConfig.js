@@ -32,7 +32,7 @@ export const site = {
     { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/darshinnovations' },
     // The page itself, not a post on it. A numeric-id page has no vanity
     // handle, so profile.php?id=... *is* its canonical address.
-    { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/profile.php?id=61595371855955' },
+    { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/profile.php?id=61595132166661' },
     { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/darsh-innovations/' },
     { label: 'Dribbble', icon: 'dribbble', href: '' },
     { label: 'YouTube', icon: 'youtube', href: '' },
